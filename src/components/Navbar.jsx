@@ -10,13 +10,10 @@ export default function Navbar({ activeTab, setActiveTab }) {
 
   const navItems = [
     { id: 'hero', label: 'Home', icon: Sparkles },
-    { id: 'features', label: 'Features', icon: ShieldCheck },
     { id: 'map', label: 'Interactive Map', icon: MapPin },
     { id: 'cctv', label: 'AI CCTV Feed', icon: Eye },
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'report', label: 'Report Pothole', icon: AlertTriangle },
-    { id: 'analyzer', label: 'AI Diagnostic', icon: Cpu },
-    { id: 'admin', label: 'Admin', icon: UserCheck },
   ];
 
   useEffect(() => {

@@ -6,14 +6,13 @@ export default function MobileTabBar({ activeScreen, setActiveScreen }) {
     { id: 'home', label: 'Home', icon: Home },
     { id: 'map', label: 'Map', icon: MapPin },
     { id: 'cctv', label: 'CCTV', icon: Eye },
-    { id: 'dashboard', label: 'Dash', icon: LayoutDashboard },
+    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'report', label: 'Report', icon: AlertTriangle },
-    { id: 'diagnostic', label: 'AI Scan', icon: Cpu }
   ];
 
   return (
     <nav className="w-full bg-black text-white border-t border-white/20 px-2 py-2 shadow-2xl relative z-50">
-      <div className="w-full grid grid-cols-6 gap-1 items-center">
+      <div className="w-full grid grid-cols-5 gap-1 items-center">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeScreen === tab.id;
