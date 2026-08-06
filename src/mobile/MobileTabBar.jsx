@@ -5,8 +5,8 @@ import { motion } from 'framer-motion';
 export default function MobileTabBar({ activeScreen, setActiveScreen }) {
   const navItems = [
     { id: 'home', label: 'Home', icon: Home },
-    { id: 'map', label: 'Search', icon: MapPin },
-    { id: 'report', label: 'Create', icon: Plus, isCenter: true },
+    { id: 'map', label: 'Map', icon: MapPin },
+    { id: 'report', label: 'Report', icon: Plus, isCenter: true },
     { id: 'cctv', label: 'CCTV', icon: Eye },
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   ];
