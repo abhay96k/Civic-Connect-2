@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ResponsiveContainer, LineChart, Line, BarChart, Bar, Tooltip, CartesianGrid, XAxis, YAxis 
 } from 'recharts';
 import { 
   User, HardHat, Ambulance, ShieldAlert, AlertTriangle, CheckCircle2, Clock, 
-  Truck, Navigation, Activity, MapPin, Sparkles, Radio, Zap, ChevronRight, Award
+  Truck, Navigation, Activity, MapPin, Sparkles, Radio, Zap, ChevronRight, Award, LogOut
 } from 'lucide-react';
 
-export default function DashboardScreen() {
-  const [activeRole, setActiveRole] = useState('citizen'); // 'citizen' | 'construction' | 'ambulance' | 'police'
+export default function DashboardScreen({ userRole = 'citizen', onLogout }) {
+  const [activeRole, setActiveRole] = useState(userRole); // 'citizen' | 'construction' | 'ambulance' | 'police'
+
+  useEffect(() => {
+    if (userRole) {
+      setActiveRole(userRole);
+    }
+  }, [userRole]);
 
   const roles = [
     { id: 'citizen', label: 'Citizen', icon: User, badgeColor: 'bg-blue-500' },
@@ -53,6 +59,25 @@ export default function DashboardScreen() {
 
   return (
     <div className="p-3 sm:p-4 space-y-4 animate-fadeIn pb-8">
+      {/* Logged-In Header Status & Logout */}
+      {onLogout && (
+        <div className="flex items-center justify-between px-1">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[10px] font-mono font-bold text-zinc-600 uppercase">
+              Authenticated Session: {activeRole}
+            </span>
+          </div>
+          <button
+            onClick={onLogout}
+            className="flex items-center gap-1 text-[10px] font-mono font-bold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 px-2.5 py-1 rounded-lg border border-red-200 transition-all cursor-pointer"
+          >
+            <LogOut className="w-3 h-3" />
+            <span>Switch Role / Logout</span>
+          </button>
+        </div>
+      )}
+
       {/* 4 Role Selector Tabs */}
       <div className="bg-zinc-100 p-1.5 rounded-2xl border border-black/10 shadow-xs flex items-center justify-between gap-1 overflow-x-auto scrollbar-none">
         {roles.map((role) => {

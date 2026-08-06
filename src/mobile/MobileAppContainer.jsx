@@ -14,6 +14,20 @@ import { Smartphone, Monitor, Wifi, Battery, Signal } from 'lucide-react';
 export default function MobileAppContainer() {
   const [activeScreen, setActiveScreen] = useState('home');
   const [viewMode, setViewMode] = useState('iphone'); // 'iphone' or 'fullscreen'
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+
+  const handleLoginSuccess = (role) => {
+    setUserRole(role);
+    setIsLoggedIn(true);
+    setActiveScreen('dashboard');
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUserRole(null);
+    setActiveScreen('login');
+  };
 
   const renderScreen = () => {
     switch (activeScreen) {
@@ -24,13 +38,16 @@ export default function MobileAppContainer() {
       case 'cctv':
         return <CctvScreen />;
       case 'dashboard':
-        return <DashboardScreen />;
+        if (!isLoggedIn) {
+          return <LoginScreen onLoginSuccess={handleLoginSuccess} />;
+        }
+        return <DashboardScreen userRole={userRole} onLogout={handleLogout} />;
       case 'report':
         return <ReportScreen />;
       case 'diagnostic':
         return <DiagnosticScreen />;
       case 'login':
-        return <LoginScreen onLoginSuccess={() => setActiveScreen('dashboard')} />;
+        return <LoginScreen onLoginSuccess={handleLoginSuccess} />;
       default:
         return <HomeScreen setActiveScreen={setActiveScreen} />;
     }
