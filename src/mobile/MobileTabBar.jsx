@@ -1,43 +1,77 @@
 import React from 'react';
-import { Home, MapPin, Eye, LayoutDashboard, AlertTriangle, Cpu } from 'lucide-react';
+import { Home, MapPin, Plus, Eye, LayoutDashboard } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function MobileTabBar({ activeScreen, setActiveScreen }) {
-  const tabs = [
+  const navItems = [
     { id: 'home', label: 'Home', icon: Home },
-    { id: 'map', label: 'Map', icon: MapPin },
+    { id: 'map', label: 'Search', icon: MapPin },
+    { id: 'report', label: 'Create', icon: Plus, isCenter: true },
     { id: 'cctv', label: 'CCTV', icon: Eye },
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'report', label: 'Report', icon: AlertTriangle },
   ];
 
   return (
-    <nav className="w-full bg-black text-white border-t border-white/20 px-2 py-2 shadow-2xl relative z-50">
-      <div className="w-full grid grid-cols-5 gap-1 items-center">
-        {tabs.map((tab) => {
-          const Icon = tab.icon;
-          const isActive = activeScreen === tab.id;
+    <div className="w-full px-4 pb-4 pt-1 flex justify-center items-end pointer-events-none relative z-50">
+      {/* Floating Detached Container */}
+      <div className="pointer-events-auto relative w-full max-w-sm bg-white/95 dark:bg-zinc-900/95 backdrop-blur-2xl rounded-[32px] px-3 py-2 shadow-[0_20px_40px_rgba(0,0,0,0.15)] border border-black/5 dark:border-white/10 flex items-center justify-around">
+        
+        {/* Smooth Top-Center Curve Notch */}
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-20 h-5 overflow-hidden pointer-events-none">
+          <svg viewBox="0 0 80 20" className="w-full h-full fill-white/95 dark:fill-zinc-900/95 filter drop-shadow-[0_-2px_4px_rgba(0,0,0,0.03)]">
+            <path d="M0 20 Q 20 20, 26 12 Q 40 -4, 54 12 Q 60 20, 80 20 Z" />
+          </svg>
+        </div>
+
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeScreen === item.id;
+
+          if (item.isCenter) {
+            return (
+              <div key={item.id} className="relative -mt-6 z-10 flex flex-col items-center">
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setActiveScreen(item.id)}
+                  className={`w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-500 text-white flex items-center justify-center shadow-[0_8px_22px_rgba(99,102,241,0.5)] border-2 border-white dark:border-zinc-900 transition-all cursor-pointer ${
+                    isActive ? 'ring-4 ring-indigo-300 dark:ring-indigo-800' : ''
+                  }`}
+                >
+                  <Icon className="w-6 h-6 stroke-[2.5]" />
+                </motion.button>
+                <span className={`text-[10px] font-medium tracking-tight mt-0.5 ${isActive ? 'text-indigo-600 dark:text-indigo-400 font-bold' : 'text-zinc-500'}`}>
+                  {item.label}
+                </span>
+              </div>
+            );
+          }
+
           return (
             <button
-              key={tab.id}
-              onClick={() => setActiveScreen(tab.id)}
-              className={`flex flex-col items-center justify-center py-1 rounded-xl transition-all cursor-pointer ${
-                isActive ? 'text-white font-bold scale-105' : 'text-zinc-400 hover:text-zinc-200'
+              key={item.id}
+              onClick={() => setActiveScreen(item.id)}
+              className={`flex flex-col items-center justify-center px-2 py-1 transition-all cursor-pointer group ${
+                isActive ? 'text-indigo-600 dark:text-indigo-400 font-bold' : 'text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200'
               }`}
             >
-              <div className={`p-1.5 rounded-xl transition-all ${
-                isActive ? 'bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.4)]' : 'bg-transparent'
-              }`}>
-                <Icon className="w-4 h-4" />
+              <div className="relative">
+                <Icon className={`w-5 h-5 transition-transform duration-200 group-hover:scale-110 ${isActive ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
+                {isActive && (
+                  <motion.div
+                    layoutId="activeDot"
+                    className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-indigo-600 dark:bg-indigo-400"
+                  />
+                )}
               </div>
-              <span className={`text-[9px] font-space tracking-tight mt-1 ${
-                isActive ? 'text-white font-bold' : 'text-zinc-400'
-              }`}>
-                {tab.label}
+              <span className="text-[10px] tracking-tight mt-1">
+                {item.label}
               </span>
             </button>
           );
         })}
       </div>
-    </nav>
+    </div>
   );
 }
+
