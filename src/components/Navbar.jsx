@@ -62,12 +62,12 @@ export default function Navbar({ activeTab, setActiveTab }) {
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-6 py-3 sm:py-4 pointer-events-none flex justify-center"
     >
-      {/* Outer Floating Glass Container */}
+      {/* Outer Floating Container */}
       <div 
-        className={`pointer-events-auto w-full max-w-7xl transition-all duration-500 rounded-3xl ${
+        className={`pointer-events-auto w-full max-w-7xl transition-all duration-500 rounded-3xl bg-white border border-zinc-200/80 ${
           scrolled 
-            ? 'bg-white/80 dark:bg-zinc-950/80 backdrop-blur-2xl border border-white/60 dark:border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.12),0_1px_2px_rgba(0,0,0,0.06)] py-2.5 px-4 sm:px-6' 
-            : 'bg-white/65 dark:bg-zinc-950/65 backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.06)] py-3 px-4 sm:px-6'
+            ? 'shadow-[0_16px_40px_rgba(0,0,0,0.12)] py-2.5 px-4 sm:px-6' 
+            : 'shadow-[0_8px_30px_rgba(0,0,0,0.06)] py-3 px-4 sm:px-6'
         } flex items-center justify-between relative overflow-hidden group`}
       >
         {/* Ambient Top Subtle Shimmer Line */}

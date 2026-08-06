@@ -14,11 +14,11 @@ export default function MobileTabBar({ activeScreen, setActiveScreen }) {
   return (
     <div className="w-full px-4 pb-4 pt-1 flex justify-center items-end pointer-events-none relative z-50">
       {/* Floating Detached Container */}
-      <div className="pointer-events-auto relative w-full max-w-sm bg-white/95 dark:bg-zinc-900/95 backdrop-blur-2xl rounded-[32px] px-3 py-2 shadow-[0_20px_40px_rgba(0,0,0,0.15)] border border-black/5 dark:border-white/10 flex items-center justify-around">
+      <div className="pointer-events-auto relative w-full max-w-sm bg-white rounded-[32px] px-3 py-2 shadow-[0_15px_35px_rgba(0,0,0,0.12)] border border-zinc-100 flex items-center justify-around">
         
         {/* Smooth Top-Center Curve Notch */}
         <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-20 h-5 overflow-hidden pointer-events-none">
-          <svg viewBox="0 0 80 20" className="w-full h-full fill-white/95 dark:fill-zinc-900/95 filter drop-shadow-[0_-2px_4px_rgba(0,0,0,0.03)]">
+          <svg viewBox="0 0 80 20" className="w-full h-full fill-white filter drop-shadow-[0_-2px_3px_rgba(0,0,0,0.03)]">
             <path d="M0 20 Q 20 20, 26 12 Q 40 -4, 54 12 Q 60 20, 80 20 Z" />
           </svg>
         </div>
