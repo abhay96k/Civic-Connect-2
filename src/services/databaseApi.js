@@ -5,8 +5,8 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://demo-civic-connect.supabase.co';
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'demo-anon-key';
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://lhqamxrymcxbkbzuaijo.supabase.co';
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxocWFteHJ5bWN4YmtienVhaWpvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU5OTA0NzAsImV4cCI6MjEwMTU2NjQ3MH0.aHVf7J-THnEnf-kc9tDs0aepXmBceUkt7QAFdmnORMY';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
