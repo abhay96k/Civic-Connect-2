@@ -8,6 +8,7 @@ import CctvScreen from './screens/CctvScreen';
 import DashboardScreen from './screens/DashboardScreen';
 import ReportScreen from './screens/ReportScreen';
 import DiagnosticScreen from './screens/DiagnosticScreen';
+import LoginScreen from './screens/LoginScreen';
 import { Smartphone, Monitor, Wifi, Battery, Signal } from 'lucide-react';
 
 export default function MobileAppContainer() {
@@ -28,6 +29,8 @@ export default function MobileAppContainer() {
         return <ReportScreen />;
       case 'diagnostic':
         return <DiagnosticScreen />;
+      case 'login':
+        return <LoginScreen onLoginSuccess={() => setActiveScreen('dashboard')} />;
       default:
         return <HomeScreen setActiveScreen={setActiveScreen} />;
     }

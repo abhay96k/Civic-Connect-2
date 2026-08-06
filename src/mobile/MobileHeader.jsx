@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cpu, Bell, Shield, Sparkles } from 'lucide-react';
+import { Cpu, Bell, LogIn } from 'lucide-react';
 
 export default function MobileHeader({ activeScreen, setActiveScreen }) {
   return (
@@ -20,16 +20,23 @@ export default function MobileHeader({ activeScreen, setActiveScreen }) {
         </div>
       </div>
 
-      {/* Right Header Status & Notification Icon */}
+      {/* Right Header Status & Login Button */}
       <div className="flex items-center gap-2">
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-[10px] font-mono font-bold">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-          <span>99.8% AI</span>
-        </div>
+        <button 
+          onClick={() => setActiveScreen('login')}
+          className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-space font-bold transition-all cursor-pointer ${
+            activeScreen === 'login'
+              ? 'bg-black text-white border-black shadow-xs'
+              : 'bg-zinc-100 text-black border-black/10 hover:bg-zinc-200'
+          }`}
+        >
+          <LogIn className="w-3 h-3" />
+          <span>Login / Roles</span>
+        </button>
 
         <button 
           onClick={() => setActiveScreen('dashboard')}
-          className="relative p-2 rounded-xl bg-zinc-100 border border-black/10 text-black hover:bg-zinc-200 transition-all"
+          className="relative p-2 rounded-xl bg-zinc-100 border border-black/10 text-black hover:bg-zinc-200 transition-all cursor-pointer"
         >
           <Bell className="w-4 h-4" />
           <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-red-500 border border-white" />
