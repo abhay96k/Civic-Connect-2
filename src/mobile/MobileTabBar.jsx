@@ -31,16 +31,17 @@ export default function MobileTabBar({ activeScreen, setActiveScreen }) {
             return (
               <div key={item.id} className="relative -mt-6 z-10 flex flex-col items-center">
                 <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                  whileHover={{ scale: 1.12, rotate: 90 }}
+                  whileTap={{ scale: 0.88 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
                   onClick={() => setActiveScreen(item.id)}
-                  className={`w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-500 text-white flex items-center justify-center shadow-[0_8px_22px_rgba(99,102,241,0.5)] border-2 border-white dark:border-zinc-900 transition-all cursor-pointer ${
-                    isActive ? 'ring-4 ring-indigo-300 dark:ring-indigo-800' : ''
+                  className={`w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-500 text-white flex items-center justify-center shadow-[0_8px_22px_rgba(99,102,241,0.5)] border-2 border-white transition-all cursor-pointer ${
+                    isActive ? 'ring-4 ring-indigo-300' : ''
                   }`}
                 >
                   <Icon className="w-6 h-6 stroke-[2.5]" />
                 </motion.button>
-                <span className={`text-[10px] font-medium tracking-tight mt-0.5 ${isActive ? 'text-indigo-600 dark:text-indigo-400 font-bold' : 'text-zinc-500'}`}>
+                <span className={`text-[10px] font-medium tracking-tight mt-0.5 transition-colors ${isActive ? 'text-indigo-600 font-bold' : 'text-zinc-500'}`}>
                   {item.label}
                 </span>
               </div>
@@ -48,26 +49,35 @@ export default function MobileTabBar({ activeScreen, setActiveScreen }) {
           }
 
           return (
-            <button
+            <motion.button
               key={item.id}
+              whileHover={{ scale: 1.08, y: -2 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 400, damping: 28 }}
               onClick={() => setActiveScreen(item.id)}
-              className={`flex flex-col items-center justify-center px-2 py-1 transition-all cursor-pointer group ${
-                isActive ? 'text-indigo-600 dark:text-indigo-400 font-bold' : 'text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200'
+              className={`flex flex-col items-center justify-center px-2 py-1 transition-colors cursor-pointer group ${
+                isActive ? 'text-indigo-600 font-bold' : 'text-zinc-400 hover:text-zinc-700'
               }`}
             >
               <div className="relative">
-                <Icon className={`w-5 h-5 transition-transform duration-200 group-hover:scale-110 ${isActive ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
+                <motion.div
+                  animate={{ scale: isActive ? 1.15 : 1, y: isActive ? -1 : 0 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                >
+                  <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
+                </motion.div>
                 {isActive && (
                   <motion.div
                     layoutId="activeDot"
-                    className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-indigo-600 dark:bg-indigo-400"
+                    transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                    className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-indigo-600 shadow-sm"
                   />
                 )}
               </div>
-              <span className="text-[10px] tracking-tight mt-1">
+              <span className="text-[10px] tracking-tight mt-1 transition-colors">
                 {item.label}
               </span>
-            </button>
+            </motion.button>
           );
         })}
       </div>

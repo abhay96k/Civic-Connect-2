@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import MobileHeader from './MobileHeader';
 import MobileTabBar from './MobileTabBar';
 import HomeScreen from './screens/HomeScreen';
@@ -93,16 +94,27 @@ export default function MobileAppContainer() {
               <MobileHeader activeScreen={activeScreen} setActiveScreen={setActiveScreen} />
             </div>
 
-            {/* Rendered Mobile Screen Body - Scrollable Container */}
-            <div className="flex-1 overflow-y-auto p-0 scrollbar-none bg-white">
-              {renderScreen()}
+            {/* Rendered Mobile Screen Body - Smooth Animated Container */}
+            <div className="flex-1 overflow-y-auto p-0 scrollbar-none bg-white relative">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeScreen}
+                  initial={{ opacity: 0, y: 15, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -15, scale: 0.98 }}
+                  transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                  className="min-h-full w-full"
+                >
+                  {renderScreen()}
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {/* Native Mobile Bottom Tab Bar Pinned inside Chassis */}
-            <div className="flex-shrink-0 bg-black">
+            <div className="flex-shrink-0 bg-transparent">
               <MobileTabBar activeScreen={activeScreen} setActiveScreen={setActiveScreen} />
               {/* iOS Home Bar Indicator */}
-              <div className="w-28 h-1 bg-white/40 rounded-full mx-auto my-1.5" />
+              <div className="w-28 h-1 bg-zinc-400 rounded-full mx-auto mb-1.5 -mt-2" />
             </div>
           </div>
         ) : (
@@ -112,11 +124,22 @@ export default function MobileAppContainer() {
               <MobileHeader activeScreen={activeScreen} setActiveScreen={setActiveScreen} />
             </div>
 
-            <div className="flex-1 overflow-y-auto p-0 bg-white">
-              {renderScreen()}
+            <div className="flex-1 overflow-y-auto p-0 bg-white relative">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeScreen}
+                  initial={{ opacity: 0, y: 15, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -15, scale: 0.98 }}
+                  transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                  className="min-h-full w-full"
+                >
+                  {renderScreen()}
+                </motion.div>
+              </AnimatePresence>
             </div>
 
-            <div className="flex-shrink-0 bg-black">
+            <div className="flex-shrink-0 bg-transparent">
               <MobileTabBar activeScreen={activeScreen} setActiveScreen={setActiveScreen} />
             </div>
           </div>
