@@ -56,7 +56,7 @@ export default function MobileAppContainer() {
   };
 
   return (
-    <div className="min-h-screen bg-white md:bg-zinc-200 md:py-6 md:px-4 flex flex-col items-center justify-start font-inter relative">
+    <div className="h-screen md:min-h-screen bg-white md:bg-zinc-200 md:py-6 md:px-4 flex flex-col items-center justify-start font-inter relative overflow-hidden md:overflow-visible">
       {/* Top View Mode Toolbar - Only visible on Desktop / Laptop Screens */}
       <div className="hidden md:flex w-full max-w-lg mb-4 items-center justify-between glass-panel px-4 py-2 bg-white/95 border border-black/10 shadow-sm z-50 rounded-2xl">
         <div className="flex items-center gap-2">
@@ -85,12 +85,12 @@ export default function MobileAppContainer() {
       </div>
 
       {/* Main Container - Full Bleed Native App on Mobile, Simulator Frame on Desktop */}
-      <div className="w-full md:max-w-[420px] min-h-screen md:min-h-0 relative flex flex-col justify-between bg-white">
+      <div className="w-full md:max-w-[420px] h-full md:h-auto relative flex flex-col justify-between bg-white overflow-hidden">
         {/* On Desktop with iPhone Chassis Mode */}
-        <div className={`w-full flex flex-col justify-between min-h-screen md:min-h-0 ${
+        <div className={`w-full h-full flex flex-col justify-between overflow-hidden ${
           viewMode === 'iphone'
-            ? 'md:rounded-[54px] md:border-[12px] md:border-zinc-900 md:bg-white md:shadow-[0_25px_70px_rgba(0,0,0,0.35)] md:overflow-hidden md:h-[840px]'
-            : 'md:rounded-3xl md:border md:border-black/10 md:shadow-xl md:overflow-hidden md:h-[800px]'
+            ? 'md:rounded-[54px] md:border-[12px] md:border-zinc-900 md:bg-white md:shadow-[0_25px_70px_rgba(0,0,0,0.35)] md:h-[840px]'
+            : 'md:rounded-3xl md:border md:border-black/10 md:shadow-xl md:h-[800px]'
         }`}>
           
           {/* Side Hardware Buttons (Desktop simulator only) */}
@@ -120,7 +120,7 @@ export default function MobileAppContainer() {
 
           {/* Native Mobile Top App Header - Only render when logged in */}
           {isLoggedIn && (
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 sticky top-0 z-40">
               <MobileHeader 
                 activeScreen={activeScreen} 
                 setActiveScreen={setActiveScreen} 
@@ -131,7 +131,7 @@ export default function MobileAppContainer() {
             </div>
           )}
 
-          {/* Rendered Mobile Screen Body */}
+          {/* Rendered Mobile Screen Body - Scrollable content area */}
           <div className="flex-1 overflow-y-auto p-0 scrollbar-none bg-white relative">
             <AnimatePresence mode="wait">
               <motion.div
@@ -147,9 +147,9 @@ export default function MobileAppContainer() {
             </AnimatePresence>
           </div>
 
-          {/* Native Mobile Bottom Tab Bar - Only render when logged in */}
+          {/* Native Mobile Bottom Tab Bar - Pinned firmly at bottom when logged in */}
           {isLoggedIn && (
-            <div className="flex-shrink-0 bg-transparent">
+            <div className="flex-shrink-0 bg-transparent sticky bottom-0 z-50">
               <MobileTabBar 
                 activeScreen={activeScreen} 
                 setActiveScreen={setActiveScreen} 

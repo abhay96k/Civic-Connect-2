@@ -15,7 +15,7 @@ export default function MobileTabBar({ activeScreen, setActiveScreen, isLoggedIn
   ];
 
   return (
-    <div className="w-full px-4 pb-4 pt-1 flex justify-center items-end pointer-events-none relative z-50">
+    <div className="w-full px-4 pb-3 pt-1 flex justify-center items-end pointer-events-none sticky bottom-0 z-50">
       {/* Floating Detached Container */}
       <div className="pointer-events-auto relative w-full max-w-sm bg-white rounded-[32px] px-3 py-2 shadow-[0_15px_35px_rgba(0,0,0,0.12)] border border-zinc-100 flex items-center justify-around">
         
