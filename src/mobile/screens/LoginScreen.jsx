@@ -148,7 +148,7 @@ export default function LoginScreen({ onLoginSuccess }) {
   const activeRoleConfig = roles.find((r) => r.id === selectedRole);
 
   return (
-    <div className="w-full min-h-full bg-white px-5 py-6 flex flex-col justify-between max-w-md mx-auto relative font-inter text-black overflow-y-auto">
+    <div className="w-full min-h-full bg-white px-5 py-6 md:py-10 flex flex-col justify-between max-w-md md:max-w-xl mx-auto relative font-inter text-black overflow-y-auto">
       {/* Top Header & Brand Identity */}
       <div className="space-y-4">
         {/* CivicConnect Header Brand */}
