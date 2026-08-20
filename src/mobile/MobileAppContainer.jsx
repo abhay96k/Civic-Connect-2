@@ -12,7 +12,7 @@ import LoginScreen from './screens/LoginScreen';
 import { Smartphone, Monitor, Wifi, Battery, Signal } from 'lucide-react';
 
 export default function MobileAppContainer() {
-  const [activeScreen, setActiveScreen] = useState('home');
+  const [activeScreen, setActiveScreen] = useState('login');
   const [viewMode, setViewMode] = useState('iphone'); // 'iphone' or 'fullscreen'
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState(null);
