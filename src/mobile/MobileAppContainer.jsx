@@ -118,16 +118,18 @@ export default function MobileAppContainer() {
             </div>
           )}
 
-          {/* Native Mobile Top App Header */}
-          <div className="flex-shrink-0">
-            <MobileHeader 
-              activeScreen={activeScreen} 
-              setActiveScreen={setActiveScreen} 
-              isLoggedIn={isLoggedIn}
-              userRole={userRole}
-              onLogout={handleLogout}
-            />
-          </div>
+          {/* Native Mobile Top App Header - Only render when logged in */}
+          {isLoggedIn && (
+            <div className="flex-shrink-0">
+              <MobileHeader 
+                activeScreen={activeScreen} 
+                setActiveScreen={setActiveScreen} 
+                isLoggedIn={isLoggedIn}
+                userRole={userRole}
+                onLogout={handleLogout}
+              />
+            </div>
+          )}
 
           {/* Rendered Mobile Screen Body */}
           <div className="flex-1 overflow-y-auto p-0 scrollbar-none bg-white relative">
@@ -145,17 +147,19 @@ export default function MobileAppContainer() {
             </AnimatePresence>
           </div>
 
-          {/* Native Mobile Bottom Tab Bar */}
-          <div className="flex-shrink-0 bg-transparent">
-            <MobileTabBar 
-              activeScreen={activeScreen} 
-              setActiveScreen={setActiveScreen} 
-              isLoggedIn={isLoggedIn}
-            />
-            {viewMode === 'iphone' && (
-              <div className="hidden md:block w-28 h-1 bg-zinc-400 rounded-full mx-auto mb-1.5 -mt-2" />
-            )}
-          </div>
+          {/* Native Mobile Bottom Tab Bar - Only render when logged in */}
+          {isLoggedIn && (
+            <div className="flex-shrink-0 bg-transparent">
+              <MobileTabBar 
+                activeScreen={activeScreen} 
+                setActiveScreen={setActiveScreen} 
+                isLoggedIn={isLoggedIn}
+              />
+              {viewMode === 'iphone' && (
+                <div className="hidden md:block w-28 h-1 bg-zinc-400 rounded-full mx-auto mb-1.5 -mt-2" />
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
