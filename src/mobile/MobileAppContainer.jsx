@@ -9,7 +9,7 @@ import DashboardScreen from './screens/DashboardScreen';
 import ReportScreen from './screens/ReportScreen';
 import DiagnosticScreen from './screens/DiagnosticScreen';
 import LoginScreen from './screens/LoginScreen';
-import { Smartphone, Monitor, Wifi, Battery, Signal } from 'lucide-react';
+import { Smartphone, Monitor, Wifi, Battery, Signal, Cpu } from 'lucide-react';
 
 export default function MobileAppContainer() {
   const [activeScreen, setActiveScreen] = useState('login');
