@@ -30,6 +30,11 @@ export default function MobileAppContainer() {
   };
 
   const renderScreen = () => {
+    // Strict Auth Guard: If not logged in, ALWAYS render LoginScreen
+    if (!isLoggedIn) {
+      return <LoginScreen onLoginSuccess={handleLoginSuccess} />;
+    }
+
     switch (activeScreen) {
       case 'home':
         return <HomeScreen setActiveScreen={setActiveScreen} />;
@@ -38,9 +43,6 @@ export default function MobileAppContainer() {
       case 'cctv':
         return <CctvScreen />;
       case 'dashboard':
-        if (!isLoggedIn) {
-          return <LoginScreen onLoginSuccess={handleLoginSuccess} />;
-        }
         return <DashboardScreen userRole={userRole} onLogout={handleLogout} />;
       case 'report':
         return <ReportScreen />;
@@ -111,14 +113,20 @@ export default function MobileAppContainer() {
 
             {/* Native Mobile Top App Header */}
             <div className="flex-shrink-0">
-              <MobileHeader activeScreen={activeScreen} setActiveScreen={setActiveScreen} />
+              <MobileHeader 
+                activeScreen={activeScreen} 
+                setActiveScreen={setActiveScreen} 
+                isLoggedIn={isLoggedIn}
+                userRole={userRole}
+                onLogout={handleLogout}
+              />
             </div>
 
             {/* Rendered Mobile Screen Body - Smooth Animated Container */}
             <div className="flex-1 overflow-y-auto p-0 scrollbar-none bg-white relative">
               <AnimatePresence mode="wait">
                 <motion.div
-                  key={activeScreen}
+                  key={isLoggedIn ? activeScreen : 'login'}
                   initial={{ opacity: 0, y: 15, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -15, scale: 0.98 }}
@@ -132,7 +140,11 @@ export default function MobileAppContainer() {
 
             {/* Native Mobile Bottom Tab Bar Pinned inside Chassis */}
             <div className="flex-shrink-0 bg-transparent">
-              <MobileTabBar activeScreen={activeScreen} setActiveScreen={setActiveScreen} />
+              <MobileTabBar 
+                activeScreen={activeScreen} 
+                setActiveScreen={setActiveScreen} 
+                isLoggedIn={isLoggedIn}
+              />
               {/* iOS Home Bar Indicator */}
               <div className="w-28 h-1 bg-zinc-400 rounded-full mx-auto mb-1.5 -mt-2" />
             </div>
@@ -141,13 +153,19 @@ export default function MobileAppContainer() {
           /* Full Mobile App Container */
           <div className="bg-white rounded-3xl border border-black/10 shadow-xl overflow-hidden h-[800px] flex flex-col justify-between relative">
             <div className="flex-shrink-0">
-              <MobileHeader activeScreen={activeScreen} setActiveScreen={setActiveScreen} />
+              <MobileHeader 
+                activeScreen={activeScreen} 
+                setActiveScreen={setActiveScreen} 
+                isLoggedIn={isLoggedIn}
+                userRole={userRole}
+                onLogout={handleLogout}
+              />
             </div>
 
             <div className="flex-1 overflow-y-auto p-0 bg-white relative">
               <AnimatePresence mode="wait">
                 <motion.div
-                  key={activeScreen}
+                  key={isLoggedIn ? activeScreen : 'login'}
                   initial={{ opacity: 0, y: 15, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -15, scale: 0.98 }}
@@ -160,7 +178,11 @@ export default function MobileAppContainer() {
             </div>
 
             <div className="flex-shrink-0 bg-transparent">
-              <MobileTabBar activeScreen={activeScreen} setActiveScreen={setActiveScreen} />
+              <MobileTabBar 
+                activeScreen={activeScreen} 
+                setActiveScreen={setActiveScreen} 
+                isLoggedIn={isLoggedIn}
+              />
             </div>
           </div>
         )}

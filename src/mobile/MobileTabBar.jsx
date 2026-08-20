@@ -2,7 +2,10 @@ import React from 'react';
 import { Home, MapPin, Plus, Eye, LayoutDashboard } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export default function MobileTabBar({ activeScreen, setActiveScreen }) {
+export default function MobileTabBar({ activeScreen, setActiveScreen, isLoggedIn }) {
+  if (!isLoggedIn) {
+    return null; // Do not render tab bar until user logs in
+  }
   const navItems = [
     { id: 'home', label: 'Home', icon: Home },
     { id: 'map', label: 'Map', icon: MapPin },
