@@ -56,12 +56,12 @@ export default function MobileAppContainer() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-200 py-4 sm:py-6 px-2 sm:px-4 flex flex-col items-center justify-start font-inter relative">
-      {/* Top View Mode Toolbar */}
-      <div className="w-full max-w-lg mb-4 flex items-center justify-between glass-panel px-4 py-2 bg-white/95 border border-black/10 shadow-sm z-50 rounded-2xl">
+    <div className="min-h-screen bg-white md:bg-zinc-200 md:py-6 md:px-4 flex flex-col items-center justify-start font-inter relative">
+      {/* Top View Mode Toolbar - Only visible on Desktop / Laptop Screens */}
+      <div className="hidden md:flex w-full max-w-lg mb-4 items-center justify-between glass-panel px-4 py-2 bg-white/95 border border-black/10 shadow-sm z-50 rounded-2xl">
         <div className="flex items-center gap-2">
           <Smartphone className="w-4 h-4 text-black" />
-          <span className="text-xs font-space font-bold text-black">NATIVE MOBILE APP</span>
+          <span className="text-xs font-space font-bold text-black">DESKTOP MOBILE SIMULATOR</span>
         </div>
 
         <div className="flex items-center gap-1 bg-zinc-100 p-1 rounded-xl border border-black/10">
@@ -84,109 +84,81 @@ export default function MobileAppContainer() {
         </div>
       </div>
 
-      {/* Main Native Mobile Container */}
-      <div className={viewMode === 'iphone' ? 'w-full max-w-[420px] relative' : 'w-full max-w-md relative'}>
-        {viewMode === 'iphone' ? (
-          /* iPhone 16 Pro Chassis Frame */
-          <div className="relative rounded-[54px] border-[12px] border-zinc-900 bg-white shadow-[0_25px_70px_rgba(0,0,0,0.35)] overflow-hidden h-[840px] flex flex-col justify-between">
-            {/* Side Hardware Buttons */}
-            <div className="absolute -left-[16px] top-24 w-[4px] h-12 bg-zinc-800 rounded-l-md" />
-            <div className="absolute -left-[16px] top-40 w-[4px] h-12 bg-zinc-800 rounded-l-md" />
-            <div className="absolute -right-[16px] top-32 w-[4px] h-16 bg-zinc-800 rounded-r-md" />
+      {/* Main Container - Full Bleed Native App on Mobile, Simulator Frame on Desktop */}
+      <div className="w-full md:max-w-[420px] min-h-screen md:min-h-0 relative flex flex-col justify-between bg-white">
+        {/* On Desktop with iPhone Chassis Mode */}
+        <div className={`w-full flex flex-col justify-between min-h-screen md:min-h-0 ${
+          viewMode === 'iphone'
+            ? 'md:rounded-[54px] md:border-[12px] md:border-zinc-900 md:bg-white md:shadow-[0_25px_70px_rgba(0,0,0,0.35)] md:overflow-hidden md:h-[840px]'
+            : 'md:rounded-3xl md:border md:border-black/10 md:shadow-xl md:overflow-hidden md:h-[800px]'
+        }`}>
+          
+          {/* Side Hardware Buttons (Desktop simulator only) */}
+          {viewMode === 'iphone' && (
+            <>
+              <div className="hidden md:block absolute -left-[16px] top-24 w-[4px] h-12 bg-zinc-800 rounded-l-md" />
+              <div className="hidden md:block absolute -left-[16px] top-40 w-[4px] h-12 bg-zinc-800 rounded-l-md" />
+              <div className="hidden md:block absolute -right-[16px] top-32 w-[4px] h-16 bg-zinc-800 rounded-r-md" />
+            </>
+          )}
 
-            {/* Top iOS Status Bar with Dynamic Island */}
-            <div className="bg-white/95 backdrop-blur-md pt-3 px-6 pb-1.5 flex items-center justify-between border-b border-black/5 flex-shrink-0">
+          {/* Top iOS Status Bar (Only in desktop simulator mode, hidden on actual mobile devices) */}
+          {viewMode === 'iphone' && (
+            <div className="hidden md:flex bg-white/95 backdrop-blur-md pt-3 px-6 pb-1.5 items-center justify-between border-b border-black/5 flex-shrink-0">
               <span className="text-[11px] font-bold font-mono text-black">9:41</span>
-
-              {/* Dynamic Island Notch */}
               <div className="w-24 h-5 bg-black rounded-full flex items-center justify-end px-2 space-x-1 shadow-inner">
                 <div className="w-2 h-2 rounded-full bg-zinc-900" />
                 <div className="w-1.5 h-1.5 rounded-full bg-blue-900 animate-pulse" />
               </div>
-
               <div className="flex items-center gap-1.5 text-black">
                 <Signal className="w-3 h-3" />
                 <Wifi className="w-3 h-3" />
                 <Battery className="w-4 h-4 fill-black" />
               </div>
             </div>
+          )}
 
-            {/* Native Mobile Top App Header */}
-            <div className="flex-shrink-0">
-              <MobileHeader 
-                activeScreen={activeScreen} 
-                setActiveScreen={setActiveScreen} 
-                isLoggedIn={isLoggedIn}
-                userRole={userRole}
-                onLogout={handleLogout}
-              />
-            </div>
-
-            {/* Rendered Mobile Screen Body - Smooth Animated Container */}
-            <div className="flex-1 overflow-y-auto p-0 scrollbar-none bg-white relative">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={isLoggedIn ? activeScreen : 'login'}
-                  initial={{ opacity: 0, y: 15, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -15, scale: 0.98 }}
-                  transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                  className="min-h-full w-full"
-                >
-                  {renderScreen()}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            {/* Native Mobile Bottom Tab Bar Pinned inside Chassis */}
-            <div className="flex-shrink-0 bg-transparent">
-              <MobileTabBar 
-                activeScreen={activeScreen} 
-                setActiveScreen={setActiveScreen} 
-                isLoggedIn={isLoggedIn}
-              />
-              {/* iOS Home Bar Indicator */}
-              <div className="w-28 h-1 bg-zinc-400 rounded-full mx-auto mb-1.5 -mt-2" />
-            </div>
+          {/* Native Mobile Top App Header */}
+          <div className="flex-shrink-0">
+            <MobileHeader 
+              activeScreen={activeScreen} 
+              setActiveScreen={setActiveScreen} 
+              isLoggedIn={isLoggedIn}
+              userRole={userRole}
+              onLogout={handleLogout}
+            />
           </div>
-        ) : (
-          /* Full Mobile App Container */
-          <div className="bg-white rounded-3xl border border-black/10 shadow-xl overflow-hidden h-[800px] flex flex-col justify-between relative">
-            <div className="flex-shrink-0">
-              <MobileHeader 
-                activeScreen={activeScreen} 
-                setActiveScreen={setActiveScreen} 
-                isLoggedIn={isLoggedIn}
-                userRole={userRole}
-                onLogout={handleLogout}
-              />
-            </div>
 
-            <div className="flex-1 overflow-y-auto p-0 bg-white relative">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={isLoggedIn ? activeScreen : 'login'}
-                  initial={{ opacity: 0, y: 15, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -15, scale: 0.98 }}
-                  transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                  className="min-h-full w-full"
-                >
-                  {renderScreen()}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            <div className="flex-shrink-0 bg-transparent">
-              <MobileTabBar 
-                activeScreen={activeScreen} 
-                setActiveScreen={setActiveScreen} 
-                isLoggedIn={isLoggedIn}
-              />
-            </div>
+          {/* Rendered Mobile Screen Body */}
+          <div className="flex-1 overflow-y-auto p-0 scrollbar-none bg-white relative">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={isLoggedIn ? activeScreen : 'login'}
+                initial={{ opacity: 0, y: 15, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -15, scale: 0.98 }}
+                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                className="min-h-full w-full"
+              >
+                {renderScreen()}
+              </motion.div>
+            </AnimatePresence>
           </div>
-        )}
+
+          {/* Native Mobile Bottom Tab Bar */}
+          <div className="flex-shrink-0 bg-transparent">
+            <MobileTabBar 
+              activeScreen={activeScreen} 
+              setActiveScreen={setActiveScreen} 
+              isLoggedIn={isLoggedIn}
+            />
+            {viewMode === 'iphone' && (
+              <div className="hidden md:block w-28 h-1 bg-zinc-400 rounded-full mx-auto mb-1.5 -mt-2" />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
+
