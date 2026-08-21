@@ -3,6 +3,8 @@
  * Integrates OpenStreetMap Nominatim reverse geocoding & Leaflet live location telemetry.
  */
 
+export const MAPBOX_ACCESS_TOKEN = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || '';
+
 // Reverse Geocoding API: Convert (lat, lng) to real street address
 export async function reverseGeocode(lat, lng) {
   try {
