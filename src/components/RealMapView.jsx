@@ -124,7 +124,23 @@ export default function RealMapView({
 
     tileLayerRef.current = tileLayer;
 
+    // Invalidate size on mount & container resize to prevent tile cutoffs
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 200);
+
+    const resizeObserver = new ResizeObserver(() => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.invalidateSize();
+      }
+    });
+
+    if (mapContainerRef.current) {
+      resizeObserver.observe(mapContainerRef.current);
+    }
+
     return () => {
+      resizeObserver.disconnect();
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
@@ -263,8 +279,12 @@ export default function RealMapView({
     mapInstanceRef.current?.flyTo(defaultCenter, defaultZoom, { duration: 1 });
   };
 
+  const isFlexHeight = height === 'fill' || height === '100%';
+  const styleObj = isFlexHeight ? {} : { height };
+  const heightClass = isFlexHeight ? 'h-full flex-1 min-h-[300px]' : '';
+
   return (
-    <div className={`relative rounded-3xl overflow-hidden border border-zinc-200/80 shadow-lg bg-[#f8f9fa] ${className}`} style={{ height }}>
+    <div className={`relative rounded-3xl overflow-hidden border border-zinc-200/80 shadow-lg bg-[#f8f9fa] ${heightClass} ${className}`} style={styleObj}>
       {/* Map DOM Container - Clean Open Canvas */}
       <div ref={mapContainerRef} className="w-full h-full z-0" />
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MAP_MARKERS } from '../../data/mockData';
-import { MapPin, Navigation, CheckCircle2, Wrench, ShieldAlert, Sparkles } from 'lucide-react';
+import { CheckCircle2, Wrench } from 'lucide-react';
 import RealMapView from '../../components/RealMapView';
 
 export default function MapScreen() {
@@ -19,9 +19,9 @@ export default function MapScreen() {
   };
 
   return (
-    <div className="flex flex-col h-full space-y-3 p-3 sm:p-4 max-w-4xl mx-auto animate-fadeIn">
+    <div className="flex flex-col h-full min-h-[calc(100vh-140px)] space-y-3 p-3 sm:p-4 max-w-4xl mx-auto animate-fadeIn">
       {/* Top Filter Chips Bar */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+      <div className="flex-shrink-0 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
         {[
           { id: 'all', label: 'All Hazards' },
           { id: 'pothole', label: '🔴 Potholes' },
@@ -42,18 +42,20 @@ export default function MapScreen() {
         ))}
       </div>
 
-      {/* Real Interactive Google-Style GIS Map */}
-      <RealMapView
-        markers={filteredMarkers}
-        selectedMarker={selectedMarker}
-        onSelectMarker={(m) => setSelectedMarker(m)}
-        height="380px"
-        className="rounded-3xl shadow-xl border border-zinc-200/80"
-      />
+      {/* Real Interactive Google-Style GIS Map - Fits Perfectly */}
+      <div className="flex-1 min-h-[340px] h-full relative rounded-3xl overflow-hidden shadow-xl border border-zinc-200/80">
+        <RealMapView
+          markers={filteredMarkers}
+          selectedMarker={selectedMarker}
+          onSelectMarker={(m) => setSelectedMarker(m)}
+          height="100%"
+          className="w-full h-full"
+        />
+      </div>
 
       {/* Mobile Detail Sheet Card */}
       {selectedMarker && (
-        <div className="p-4 sm:p-5 rounded-3xl bg-white border border-zinc-200/90 shadow-xl text-zinc-900 space-y-3 animate-fadeIn">
+        <div className="flex-shrink-0 p-4 sm:p-5 rounded-3xl bg-white border border-zinc-200/90 shadow-xl text-zinc-900 space-y-3 animate-fadeIn">
           {/* Badge & ID */}
           <div className="flex items-center justify-between">
             <span className={`text-[10px] font-mono font-bold px-2.5 py-1 rounded-full uppercase tracking-wider ${
