@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MAP_MARKERS } from '../data/mockData';
 import { MapPin, Filter, AlertOctagon, CheckCircle2, Navigation, Layers, Shield, Wrench, Search, RefreshCw } from 'lucide-react';
+import RealMapView from './RealMapView';
 
 export default function InteractiveMap() {
   const [selectedMarker, setSelectedMarker] = useState(MAP_MARKERS[0]);
@@ -151,78 +152,19 @@ export default function InteractiveMap() {
         </div>
 
         {/* Right Map Visualizer */}
-        <div className="lg:col-span-8 relative min-h-[480px] lg:min-h-[600px] rounded-2xl overflow-hidden border border-black/15 bg-zinc-950 flex flex-col justify-between text-white">
-          {/* Cyber Simulated Dark Map Canvas View */}
-          <div className="absolute inset-0 bg-[#08080A] opacity-95">
-            {/* Grid Pattern overlay */}
-            <div 
-              className="absolute inset-0" 
-              style={{
-                backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px)',
-                backgroundSize: '24px 24px'
-              }} 
-            />
-
-            {/* Stylized Vector Roads Lines */}
-            <svg className="absolute inset-0 w-full h-full stroke-white/15 stroke-2" fill="none">
-              <path d="M 0,150 Q 300,120 600,280 T 1200,320" strokeWidth="6" stroke="rgba(255,255,255,0.08)" />
-              <path d="M 120,0 L 180,600" strokeWidth="4" stroke="rgba(255,255,255,0.08)" />
-              <path d="M 0,400 L 900,100" strokeWidth="4" stroke="rgba(255,255,255,0.08)" />
-              <circle cx="380" cy="220" r="180" stroke="rgba(255,255,255,0.04)" strokeWidth="1" strokeDasharray="4 4" />
-            </svg>
-
-            {/* Interactive Pin Markers */}
-            {filteredMarkers.map((m, index) => {
-              const topPos = 20 + (index * 12) % 65;
-              const leftPos = 15 + (index * 18) % 75;
-
-              return (
-                <div
-                  key={m.id}
-                  onClick={() => setSelectedMarker(m)}
-                  style={{ top: `${topPos}%`, left: `${leftPos}%` }}
-                  className="absolute cursor-pointer -translate-x-1/2 -translate-y-1/2 group z-20"
-                >
-                  <div className="relative flex items-center justify-center">
-                    {/* Pulsing ring if critical */}
-                    {m.severity === 'critical' && (
-                      <span className="absolute w-8 h-8 rounded-full bg-red-500/40 animate-ping" />
-                    )}
-
-                    {/* Marker Icon */}
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-2xl border-2 transition-transform group-hover:scale-125 ${
-                      getMarkerBadgeColor(m.type, m.severity)
-                    }`}>
-                      <MapPin className="w-4 h-4" />
-                    </div>
-
-                    {/* Tooltip on hover */}
-                    <div className="absolute bottom-full mb-2 hidden group-hover:block whitespace-nowrap bg-black text-white text-[10px] font-mono px-2 py-1 rounded border border-white/20 shadow-xl z-30">
-                      {m.title} ({m.confidence})
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Map Top Bar overlay */}
-          <div className="relative z-10 p-4 flex items-center justify-between bg-gradient-to-b from-black/80 to-transparent">
-            <div className="flex items-center gap-2 text-xs font-mono text-zinc-300">
-              <Navigation className="w-4 h-4 text-emerald-400" />
-              <span>LIVE GPS FEED • SECTOR: GREATER METRO</span>
-            </div>
-            <button 
-              onClick={() => setSelectedMarker(MAP_MARKERS[0])} 
-              className="px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 text-[11px] text-white flex items-center gap-1.5"
-            >
-              <RefreshCw className="w-3 h-3" /> Reset View
-            </button>
-          </div>
+        <div className="lg:col-span-8 flex flex-col space-y-4">
+          {/* Real Mapbox / Leaflet Map Container */}
+          <RealMapView
+            markers={filteredMarkers}
+            selectedMarker={selectedMarker}
+            onSelectMarker={(m) => setSelectedMarker(m)}
+            height="440px"
+            className="rounded-2xl border border-black/15 shadow-xl"
+          />
 
           {/* Bottom Selected Marker Detail Panel */}
           {selectedMarker && (
-            <div className="relative z-10 p-4 sm:p-6 glass-panel-dark border-t border-white/20 bg-black/95 backdrop-blur-xl animate-fadeIn">
+            <div className="p-4 sm:p-6 rounded-2xl border border-black/15 bg-black text-white shadow-xl animate-fadeIn">
               <div className="grid md:grid-cols-12 gap-6 items-center">
                 {/* Image Snapshot */}
                 <div className="md:col-span-4 rounded-xl overflow-hidden border border-white/20 h-32 relative">

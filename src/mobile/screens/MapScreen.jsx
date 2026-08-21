@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MAP_MARKERS } from '../../data/mockData';
 import { MapPin, Navigation, RefreshCw, CheckCircle2, Wrench } from 'lucide-react';
+import RealMapView from '../../components/RealMapView';
 
 export default function MapScreen() {
   const [selectedMarker, setSelectedMarker] = useState(MAP_MARKERS[0]);
@@ -11,13 +12,6 @@ export default function MapScreen() {
     if (typeFilter !== 'all' && m.type !== typeFilter) return false;
     return true;
   });
-
-  const getMarkerColor = (type, severity) => {
-    if (type === 'safe') return 'bg-emerald-500 text-black border-emerald-400';
-    if (type === 'traffic') return 'bg-orange-500 text-white border-orange-400';
-    if (severity === 'critical') return 'bg-red-600 text-white border-red-500 animate-pulse';
-    return 'bg-amber-500 text-black border-amber-400';
-  };
 
   const handleDispatch = () => {
     setIsDispatched(true);
@@ -48,56 +42,14 @@ export default function MapScreen() {
         ))}
       </div>
 
-      {/* Simulated Mobile Map Box */}
-      <div className="relative h-[320px] rounded-3xl overflow-hidden border border-black/15 bg-[#08080A] shadow-lg flex flex-col justify-between">
-        {/* Grid pattern */}
-        <div 
-          className="absolute inset-0 opacity-80" 
-          style={{
-            backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px)',
-            backgroundSize: '20px 20px'
-          }} 
-        />
-
-        {/* Vector road lines */}
-        <svg className="absolute inset-0 w-full h-full stroke-white/15 stroke-2" fill="none">
-          <path d="M 0,100 Q 150,80 300,180 T 600,220" strokeWidth="5" stroke="rgba(255,255,255,0.08)" />
-          <path d="M 80,0 L 120,400" strokeWidth="3" stroke="rgba(255,255,255,0.08)" />
-        </svg>
-
-        {/* Interactive Pin Markers */}
-        {filteredMarkers.map((m, index) => {
-          const topPos = 25 + (index * 14) % 55;
-          const leftPos = 20 + (index * 22) % 65;
-
-          return (
-            <div
-              key={m.id}
-              onClick={() => setSelectedMarker(m)}
-              style={{ top: `${topPos}%`, left: `${leftPos}%` }}
-              className="absolute cursor-pointer -translate-x-1/2 -translate-y-1/2 z-20 active:scale-125 transition-transform"
-            >
-              <div className={`w-7 h-7 rounded-full flex items-center justify-center shadow-lg border-2 ${getMarkerColor(m.type, m.severity)}`}>
-                <MapPin className="w-3.5 h-3.5" />
-              </div>
-            </div>
-          );
-        })}
-
-        {/* Map Header Overlay */}
-        <div className="relative z-10 p-3 flex items-center justify-between text-[10px] font-mono text-white bg-gradient-to-b from-black/80 to-transparent">
-          <div className="flex items-center gap-1.5">
-            <Navigation className="w-3.5 h-3.5 text-emerald-400" />
-            <span>GPS LIVE METRO</span>
-          </div>
-          <button 
-            onClick={() => setSelectedMarker(MAP_MARKERS[0])}
-            className="px-2 py-0.5 rounded bg-white/20 text-white flex items-center gap-1"
-          >
-            <RefreshCw className="w-3 h-3" /> Reset
-          </button>
-        </div>
-      </div>
+      {/* Real Interactive Mapbox GIS View */}
+      <RealMapView
+        markers={filteredMarkers}
+        selectedMarker={selectedMarker}
+        onSelectMarker={(m) => setSelectedMarker(m)}
+        height="340px"
+        className="rounded-3xl shadow-lg border border-black/15"
+      />
 
       {/* Mobile Bottom-Sheet Detail Card */}
       {selectedMarker && (
