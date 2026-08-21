@@ -13,7 +13,7 @@ export default function MobileHeader({ activeScreen, setActiveScreen, isLoggedIn
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-black/10 px-4 py-3 flex items-center justify-between shadow-xs">
+    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-2xl border-b border-white/80 px-4 py-3 flex items-center justify-between shadow-xs">
       {/* Brand Logo */}
       <div 
         onClick={() => {

@@ -53,7 +53,7 @@ export default function HomeScreen({ setActiveScreen }) {
         <div className="grid grid-cols-2 gap-3">
           <button
             onClick={() => setActiveScreen('map')}
-            className="p-4 rounded-2xl bg-zinc-50 border border-black/10 text-left hover:border-black/30 transition-all shadow-xs group"
+            className="p-4 rounded-2xl glass-card-frosted text-left transition-all group cursor-pointer"
           >
             <div className="w-9 h-9 rounded-xl bg-black text-white flex items-center justify-center mb-2 shadow">
               <MapPin className="w-5 h-5 text-white" />
@@ -64,7 +64,7 @@ export default function HomeScreen({ setActiveScreen }) {
 
           <button
             onClick={() => setActiveScreen('diagnostic')}
-            className="p-4 rounded-2xl bg-zinc-50 border border-black/10 text-left hover:border-black/30 transition-all shadow-xs group"
+            className="p-4 rounded-2xl glass-card-frosted text-left transition-all group cursor-pointer"
           >
             <div className="w-9 h-9 rounded-xl bg-black text-white flex items-center justify-center mb-2 shadow">
               <Sparkles className="w-5 h-5 text-cyan-400" />
@@ -75,13 +75,13 @@ export default function HomeScreen({ setActiveScreen }) {
         </div>
       </div>
 
-      {/* Live Telemetry Stats */}
-      <div className="p-4 rounded-2xl bg-zinc-50 border border-black/10 grid grid-cols-3 gap-2 text-center">
+      {/* Live Telemetry Stats - Frosted Glass */}
+      <div className="p-4 rounded-2xl glass-card-frosted grid grid-cols-3 gap-2 text-center">
         <div>
           <p className="text-[9px] font-mono text-zinc-500 font-bold">SCANS/MIN</p>
           <p className="text-base font-space font-bold text-black mt-0.5">{scanCount.toLocaleString()}</p>
         </div>
-        <div className="border-x border-black/10 px-1">
+        <div className="border-x border-zinc-200/80 px-1">
           <p className="text-[9px] font-mono text-zinc-500 font-bold">ROADS</p>
           <p className="text-base font-space font-bold text-black mt-0.5">{MOCK_STATS.monitoredRoadsKm} KM</p>
         </div>
@@ -97,7 +97,7 @@ export default function HomeScreen({ setActiveScreen }) {
           <p className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-wider">LIVE RECENT ALERTS</p>
           <button 
             onClick={() => setActiveScreen('dashboard')} 
-            className="text-[10px] font-mono text-black font-bold flex items-center gap-1"
+            className="text-[10px] font-mono text-black font-bold flex items-center gap-1 cursor-pointer"
           >
             View All <ArrowRight className="w-3 h-3" />
           </button>
@@ -108,7 +108,7 @@ export default function HomeScreen({ setActiveScreen }) {
             <div 
               key={alert.id} 
               onClick={() => setActiveScreen('map')}
-              className="p-3 rounded-2xl bg-zinc-50 border border-black/10 flex items-center justify-between active:bg-zinc-100 transition-colors cursor-pointer"
+              className="p-3 rounded-2xl glass-card-frosted flex items-center justify-between cursor-pointer group"
             >
               <div className="flex items-center gap-3">
                 <div className={`w-2.5 h-2.5 rounded-full ${

@@ -18,7 +18,7 @@ export default function MobileTabBar({ activeScreen, setActiveScreen, isLoggedIn
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 px-4 pb-4 pt-1 flex justify-center items-end pointer-events-none">
       {/* Sleek Glassmorphic Floating Nav Pill Container */}
-      <div className="pointer-events-auto relative w-full max-w-sm bg-white/90 backdrop-blur-2xl rounded-full px-4 py-2 shadow-[0_12px_40px_rgba(0,0,0,0.15)] border border-zinc-200/90 flex items-center justify-between">
+      <div className="pointer-events-auto relative w-full max-w-sm bg-white/80 backdrop-blur-3xl rounded-full px-4 py-2 shadow-[0_16px_50px_rgba(0,0,0,0.12),inset_0_1px_1px_rgba(255,255,255,1)] border border-white/90 flex items-center justify-between">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeScreen === item.id;

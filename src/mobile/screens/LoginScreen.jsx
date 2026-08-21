@@ -221,13 +221,13 @@ export default function LoginScreen({ onLoginSuccess }) {
                   key={r.id}
                   type="button"
                   onClick={() => handleRoleSelect(r.id)}
-                  className={`p-2 rounded-xl border text-left transition-all flex items-center gap-2 cursor-pointer ${
+                  className={`p-2.5 rounded-2xl border text-left transition-all flex items-center gap-2 cursor-pointer ${
                     isSelected
-                      ? 'bg-black text-white border-black shadow-xs'
-                      : 'bg-zinc-50 border-zinc-200/80 text-zinc-700 hover:bg-zinc-100'
+                      ? 'bg-black text-white border-black shadow-md'
+                      : 'glass-card-frosted text-zinc-800 hover:bg-white'
                   }`}
                 >
-                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center ${isSelected ? 'bg-white/20 text-white' : 'bg-zinc-200/70 text-black'}`}>
+                  <div className={`w-7 h-7 rounded-xl flex items-center justify-center ${isSelected ? 'bg-white/20 text-white' : 'bg-black/5 text-black'}`}>
                     <Icon className="w-3.5 h-3.5" />
                   </div>
                   <div className="truncate">

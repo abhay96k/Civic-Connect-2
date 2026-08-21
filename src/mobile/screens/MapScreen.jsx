@@ -31,10 +31,10 @@ export default function MapScreen() {
           <button
             key={chip.id}
             onClick={() => setTypeFilter(chip.id)}
-            className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
+            className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
               typeFilter === chip.id
                 ? 'bg-black text-white shadow-md font-semibold'
-                : 'bg-white text-zinc-700 border border-zinc-200/90 hover:bg-zinc-50'
+                : 'glass-pill text-zinc-800 hover:bg-white'
             }`}
           >
             {chip.label}
@@ -43,7 +43,7 @@ export default function MapScreen() {
       </div>
 
       {/* Real Interactive Google-Style GIS Map */}
-      <div className="w-full flex-1 min-h-[320px] h-full relative rounded-3xl overflow-hidden shadow-xl border border-zinc-200/80 box-border">
+      <div className="w-full flex-1 min-h-[320px] h-full relative rounded-3xl overflow-hidden shadow-xl border border-white/80 box-border">
         <RealMapView
           markers={filteredMarkers}
           selectedMarker={selectedMarker}
@@ -53,9 +53,9 @@ export default function MapScreen() {
         />
       </div>
 
-      {/* Mobile Detail Sheet Card */}
+      {/* Mobile Detail Sheet Card - Frosted Glassmorphism */}
       {selectedMarker && (
-        <div className="w-full flex-shrink-0 p-4 rounded-3xl bg-white border border-zinc-200/90 shadow-xl text-zinc-900 space-y-3 box-border animate-fadeIn">
+        <div className="w-full flex-shrink-0 p-4 rounded-3xl glass-card-frosted text-zinc-900 space-y-3 box-border animate-fadeIn">
           {/* Badge & ID */}
           <div className="flex flex-wrap items-center justify-between gap-2">
             <span className={`text-[10px] font-mono font-bold px-2.5 py-1 rounded-full uppercase tracking-wider ${
