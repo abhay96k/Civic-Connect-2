@@ -53,9 +53,6 @@ export default function MobileTabBar({ activeScreen, setActiveScreen, isLoggedIn
             >
               <div className="relative">
                 <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
-                {isActive && (
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-black" />
-                )}
               </div>
               <span className="text-[9px] font-medium tracking-tight mt-1">
                 {item.label}
