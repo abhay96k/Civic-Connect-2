@@ -121,8 +121,8 @@ export default function MobileAppShell({ children, activeTab, setActiveTab }) {
               {children}
             </div>
 
-            {/* Mobile Tab Bar */}
-            <div className="sticky bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-black/10 py-2 px-2 flex flex-col items-center">
+            {/* Mobile Tab Bar - Fixed at bottom */}
+            <div className="absolute bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-black/10 py-2 px-2 flex flex-col items-center">
               <div className="w-full grid grid-cols-6 gap-1">
                 {bottomTabs.map((tab) => {
                   const Icon = tab.icon;

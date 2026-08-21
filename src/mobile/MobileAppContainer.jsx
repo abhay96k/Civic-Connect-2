@@ -55,7 +55,7 @@ export default function MobileAppContainer() {
 
   return (
     <div className="w-full min-h-screen bg-white flex flex-col justify-between font-inter relative overflow-x-hidden">
-      {/* Top Header - Render when logged in */}
+      {/* Fixed Top Header - Render when logged in */}
       {isLoggedIn && (
         <div className="flex-shrink-0 sticky top-0 z-40 bg-white border-b border-zinc-200 shadow-xs">
           <div className="w-full max-w-7xl mx-auto">
@@ -70,8 +70,8 @@ export default function MobileAppContainer() {
         </div>
       )}
 
-      {/* Main Screen Body - Full screen on desktop and mobile */}
-      <div className="flex-1 w-full flex flex-col justify-center items-center bg-white relative">
+      {/* Main Screen Body - Full screen on desktop and mobile with bottom padding for fixed nav */}
+      <div className={`flex-1 w-full flex flex-col justify-center items-center bg-white relative ${isLoggedIn ? 'pb-24' : ''}`}>
         <div className="w-full max-w-7xl mx-auto flex-1 flex flex-col justify-center">
           <AnimatePresence mode="wait">
             <motion.div
@@ -88,19 +88,14 @@ export default function MobileAppContainer() {
         </div>
       </div>
 
-      {/* Bottom Navigation Bar - Render when logged in */}
+      {/* Permanently Fixed Bottom Navigation Bar - Render when logged in */}
       {isLoggedIn && (
-        <div className="flex-shrink-0 sticky bottom-0 z-50 bg-white border-t border-zinc-200 shadow-lg">
-          <div className="w-full max-w-7xl mx-auto">
-            <MobileTabBar 
-              activeScreen={activeScreen} 
-              setActiveScreen={setActiveScreen} 
-              isLoggedIn={isLoggedIn}
-            />
-          </div>
-        </div>
+        <MobileTabBar 
+          activeScreen={activeScreen} 
+          setActiveScreen={setActiveScreen} 
+          isLoggedIn={isLoggedIn}
+        />
       )}
     </div>
   );
 }
-

@@ -6,6 +6,7 @@ export default function MobileTabBar({ activeScreen, setActiveScreen, isLoggedIn
   if (!isLoggedIn) {
     return null; // Do not render tab bar until user logs in
   }
+
   const navItems = [
     { id: 'home', label: 'Home', icon: Home },
     { id: 'map', label: 'Map', icon: MapPin },
@@ -15,13 +16,13 @@ export default function MobileTabBar({ activeScreen, setActiveScreen, isLoggedIn
   ];
 
   return (
-    <div className="w-full px-4 pb-3 pt-1 flex justify-center items-end pointer-events-none sticky bottom-0 z-50">
-      {/* Floating Detached Container */}
-      <div className="pointer-events-auto relative w-full max-w-sm bg-white rounded-[32px] px-3 py-2 shadow-[0_15px_35px_rgba(0,0,0,0.12)] border border-zinc-100 flex items-center justify-around">
+    <div className="fixed bottom-0 left-0 right-0 z-50 px-4 pb-3 pt-1 flex justify-center items-end pointer-events-none">
+      {/* Floating Detached Capsule Container - Permanently Fixed at Bottom */}
+      <div className="pointer-events-auto relative w-full max-w-md bg-white/95 backdrop-blur-xl rounded-[32px] px-3 py-2 shadow-[0_15px_35px_rgba(0,0,0,0.18)] border border-zinc-200/80 flex items-center justify-around">
         
         {/* Smooth Top-Center Curve Notch */}
         <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-20 h-5 overflow-hidden pointer-events-none">
-          <svg viewBox="0 0 80 20" className="w-full h-full fill-white filter drop-shadow-[0_-2px_3px_rgba(0,0,0,0.03)]">
+          <svg viewBox="0 0 80 20" className="w-full h-full fill-white/95 filter drop-shadow-[0_-2px_3px_rgba(0,0,0,0.03)]">
             <path d="M0 20 Q 20 20, 26 12 Q 40 -4, 54 12 Q 60 20, 80 20 Z" />
           </svg>
         </div>
@@ -65,7 +66,7 @@ export default function MobileTabBar({ activeScreen, setActiveScreen, isLoggedIn
               <div className="relative">
                 <motion.div
                   animate={{ scale: isActive ? 1.15 : 1, y: isActive ? -1 : 0 }}
-                  transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                  transition={{ type: 'spring', stiffness: 350, damping: 25 }}
                 >
                   <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
                 </motion.div>
@@ -73,11 +74,11 @@ export default function MobileTabBar({ activeScreen, setActiveScreen, isLoggedIn
                   <motion.div
                     layoutId="activeDot"
                     transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                    className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-indigo-600 shadow-sm"
+                    className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-indigo-600 shadow-xs"
                   />
                 )}
               </div>
-              <span className="text-[10px] tracking-tight mt-1 transition-colors">
+              <span className="text-[10px] tracking-tight mt-1 transition-colors font-medium">
                 {item.label}
               </span>
             </motion.button>
@@ -87,4 +88,3 @@ export default function MobileTabBar({ activeScreen, setActiveScreen, isLoggedIn
     </div>
   );
 }
-
