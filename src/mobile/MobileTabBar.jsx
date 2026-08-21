@@ -16,17 +16,9 @@ export default function MobileTabBar({ activeScreen, setActiveScreen, isLoggedIn
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 px-4 pb-3 pt-1 flex justify-center items-end pointer-events-none">
-      {/* Floating Detached Capsule Container - Permanently Fixed at Bottom */}
-      <div className="pointer-events-auto relative w-full max-w-md bg-white/95 backdrop-blur-xl rounded-[32px] px-3 py-2 shadow-[0_15px_35px_rgba(0,0,0,0.18)] border border-zinc-200/80 flex items-center justify-around">
-        
-        {/* Smooth Top-Center Curve Notch */}
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-20 h-5 overflow-hidden pointer-events-none">
-          <svg viewBox="0 0 80 20" className="w-full h-full fill-white/95 filter drop-shadow-[0_-2px_3px_rgba(0,0,0,0.03)]">
-            <path d="M0 20 Q 20 20, 26 12 Q 40 -4, 54 12 Q 60 20, 80 20 Z" />
-          </svg>
-        </div>
-
+    <div className="fixed bottom-0 left-0 right-0 z-50 px-4 pb-4 pt-1 flex justify-center items-end pointer-events-none">
+      {/* Sleek Glassmorphic Floating Nav Pill Container */}
+      <div className="pointer-events-auto relative w-full max-w-sm bg-white/90 backdrop-blur-2xl rounded-full px-4 py-2 shadow-[0_12px_40px_rgba(0,0,0,0.15)] border border-zinc-200/90 flex items-center justify-between">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeScreen === item.id;
@@ -35,17 +27,16 @@ export default function MobileTabBar({ activeScreen, setActiveScreen, isLoggedIn
             return (
               <div key={item.id} className="relative -mt-6 z-10 flex flex-col items-center">
                 <motion.button
-                  whileHover={{ scale: 1.12, rotate: 90 }}
-                  whileTap={{ scale: 0.88 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={() => setActiveScreen(item.id)}
-                  className={`w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-500 text-white flex items-center justify-center shadow-[0_8px_22px_rgba(99,102,241,0.5)] border-2 border-white transition-all cursor-pointer ${
-                    isActive ? 'ring-4 ring-indigo-300' : ''
+                  className={`w-12 h-12 rounded-full bg-black text-white flex items-center justify-center shadow-[0_8px_20px_rgba(0,0,0,0.3)] border-2 border-white transition-all cursor-pointer ${
+                    isActive ? 'ring-4 ring-black/20' : ''
                   }`}
                 >
                   <Icon className="w-6 h-6 stroke-[2.5]" />
                 </motion.button>
-                <span className={`text-[10px] font-medium tracking-tight mt-0.5 transition-colors ${isActive ? 'text-indigo-600 font-bold' : 'text-zinc-500'}`}>
+                <span className={`text-[9px] font-semibold tracking-tight mt-0.5 transition-colors ${isActive ? 'text-black font-bold' : 'text-zinc-500'}`}>
                   {item.label}
                 </span>
               </div>
@@ -53,35 +44,23 @@ export default function MobileTabBar({ activeScreen, setActiveScreen, isLoggedIn
           }
 
           return (
-            <motion.button
+            <button
               key={item.id}
-              whileHover={{ scale: 1.08, y: -2 }}
-              whileTap={{ scale: 0.9 }}
-              transition={{ type: "spring", stiffness: 400, damping: 28 }}
               onClick={() => setActiveScreen(item.id)}
-              className={`flex flex-col items-center justify-center px-2 py-1 transition-colors cursor-pointer group ${
-                isActive ? 'text-indigo-600 font-bold' : 'text-zinc-400 hover:text-zinc-700'
+              className={`flex flex-col items-center justify-center px-2 py-1 transition-all cursor-pointer ${
+                isActive ? 'text-black font-bold scale-105' : 'text-zinc-400 hover:text-zinc-700'
               }`}
             >
               <div className="relative">
-                <motion.div
-                  animate={{ scale: isActive ? 1.15 : 1, y: isActive ? -1 : 0 }}
-                  transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-                >
-                  <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
-                </motion.div>
+                <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
                 {isActive && (
-                  <motion.div
-                    layoutId="activeDot"
-                    transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                    className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-indigo-600 shadow-xs"
-                  />
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-black" />
                 )}
               </div>
-              <span className="text-[10px] tracking-tight mt-1 transition-colors font-medium">
+              <span className="text-[9px] font-medium tracking-tight mt-1">
                 {item.label}
               </span>
-            </motion.button>
+            </button>
           );
         })}
       </div>
