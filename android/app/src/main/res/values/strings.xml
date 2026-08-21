@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">RoadVision AI</string>
+    <string name="title_activity_main">RoadVision AI</string>
+    <string name="package_name">com.roadvision.app</string>
+    <string name="custom_url_scheme">com.roadvision.app</string>
+</resources>

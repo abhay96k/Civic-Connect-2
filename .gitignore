@@ -24,4 +24,9 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+# Native Android & iOS Build Outputs
+android/app/build
+android/.gradle
+android/build
+ios/App/DerivedData
+ios/App/Pods
