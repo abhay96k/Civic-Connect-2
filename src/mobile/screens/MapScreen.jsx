@@ -19,9 +19,9 @@ export default function MapScreen() {
   };
 
   return (
-    <div className="flex flex-col h-full min-h-[calc(100vh-140px)] space-y-3 p-3 sm:p-4 max-w-4xl mx-auto animate-fadeIn">
+    <div className="w-full max-w-xl mx-auto flex flex-col h-full min-h-[calc(100vh-140px)] space-y-3 px-3 py-2 box-border overflow-x-hidden animate-fadeIn">
       {/* Top Filter Chips Bar */}
-      <div className="flex-shrink-0 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+      <div className="w-full flex-shrink-0 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
         {[
           { id: 'all', label: 'All Hazards' },
           { id: 'pothole', label: '🔴 Potholes' },
@@ -31,7 +31,7 @@ export default function MapScreen() {
           <button
             key={chip.id}
             onClick={() => setTypeFilter(chip.id)}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
               typeFilter === chip.id
                 ? 'bg-black text-white shadow-md font-semibold'
                 : 'bg-white text-zinc-700 border border-zinc-200/90 hover:bg-zinc-50'
@@ -42,8 +42,8 @@ export default function MapScreen() {
         ))}
       </div>
 
-      {/* Real Interactive Google-Style GIS Map - Fits Perfectly */}
-      <div className="flex-1 min-h-[340px] h-full relative rounded-3xl overflow-hidden shadow-xl border border-zinc-200/80">
+      {/* Real Interactive Google-Style GIS Map */}
+      <div className="w-full flex-1 min-h-[320px] h-full relative rounded-3xl overflow-hidden shadow-xl border border-zinc-200/80 box-border">
         <RealMapView
           markers={filteredMarkers}
           selectedMarker={selectedMarker}
@@ -55,9 +55,9 @@ export default function MapScreen() {
 
       {/* Mobile Detail Sheet Card */}
       {selectedMarker && (
-        <div className="flex-shrink-0 p-4 sm:p-5 rounded-3xl bg-white border border-zinc-200/90 shadow-xl text-zinc-900 space-y-3 animate-fadeIn">
+        <div className="w-full flex-shrink-0 p-4 rounded-3xl bg-white border border-zinc-200/90 shadow-xl text-zinc-900 space-y-3 box-border animate-fadeIn">
           {/* Badge & ID */}
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <span className={`text-[10px] font-mono font-bold px-2.5 py-1 rounded-full uppercase tracking-wider ${
               selectedMarker.type === 'safe'
                 ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
@@ -67,14 +67,14 @@ export default function MapScreen() {
             }`}>
               {selectedMarker.type.toUpperCase()} • SEVERITY {selectedMarker.severityScore || '8.0'}/10
             </span>
-            <span className="text-[11px] font-mono text-zinc-400 font-semibold">ID: {selectedMarker.id}</span>
+            <span className="text-[10px] font-mono text-zinc-400 font-semibold">ID: {selectedMarker.id}</span>
           </div>
 
           {/* Title & Address */}
           <div>
-            <h3 className="text-base font-space font-bold text-zinc-900">{selectedMarker.title}</h3>
-            <p className="text-xs text-zinc-500 font-inter mt-0.5 flex items-center gap-1">
-              <span>📍</span> {selectedMarker.address}
+            <h3 className="text-base font-space font-bold text-zinc-900 leading-tight">{selectedMarker.title}</h3>
+            <p className="text-xs text-zinc-500 font-inter mt-1 flex items-center gap-1">
+              <span>📍</span> <span className="truncate">{selectedMarker.address}</span>
             </p>
           </div>
 
