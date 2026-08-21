@@ -1,29 +1,39 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import { MAPBOX_ACCESS_TOKEN } from '../services/mapApi';
-import { Locate, ZoomIn, ZoomOut, RefreshCw, Layers, ChevronDown } from 'lucide-react';
+import { Locate, ZoomIn, ZoomOut, RefreshCw, ChevronDown } from 'lucide-react';
 
-// Google Maps-like Tile Layer Configurations
+// Google Maps-like Tile Layer Configurations with Bulletproof Fallbacks
+const hasMapboxToken = MAPBOX_ACCESS_TOKEN && MAPBOX_ACCESS_TOKEN.startsWith('pk.');
+
 const GOOGLE_STYLE_LAYERS = {
   streets: {
-    name: 'Default Map',
+    name: 'Google Map',
     icon: '🗺️',
-    url: `https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/{z}/{x}/{y}?access_token=${MAPBOX_ACCESS_TOKEN}`,
+    url: hasMapboxToken
+      ? `https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/256/{z}/{x}/{y}@2x?access_token=${MAPBOX_ACCESS_TOKEN}`
+      : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
   },
   satellite: {
     name: 'Satellite',
     icon: '🛰️',
-    url: `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/tiles/{z}/{x}/{y}?access_token=${MAPBOX_ACCESS_TOKEN}`,
+    url: hasMapboxToken
+      ? `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/tiles/256/{z}/{x}/{y}@2x?access_token=${MAPBOX_ACCESS_TOKEN}`
+      : 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
   },
   terrain: {
     name: 'Terrain',
     icon: '⛰️',
-    url: `https://api.mapbox.com/styles/v1/mapbox/outdoors-v12/tiles/{z}/{x}/{y}?access_token=${MAPBOX_ACCESS_TOKEN}`,
+    url: hasMapboxToken
+      ? `https://api.mapbox.com/styles/v1/mapbox/outdoors-v12/tiles/256/{z}/{x}/{y}@2x?access_token=${MAPBOX_ACCESS_TOKEN}`
+      : 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
   },
   dark: {
     name: 'Night Mode',
     icon: '🌙',
-    url: `https://api.mapbox.com/styles/v1/mapbox/navigation-night-v1/tiles/{z}/{x}/{y}?access_token=${MAPBOX_ACCESS_TOKEN}`,
+    url: hasMapboxToken
+      ? `https://api.mapbox.com/styles/v1/mapbox/navigation-night-v1/tiles/256/{z}/{x}/{y}@2x?access_token=${MAPBOX_ACCESS_TOKEN}`
+      : 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
   },
 };
 
@@ -33,7 +43,7 @@ export default function RealMapView({
   markers = [],
   selectedMarker = null,
   onSelectMarker = () => {},
-  height = '420px',
+  height = '380px',
   className = '',
 }) {
   const mapContainerRef = useRef(null);
@@ -46,7 +56,7 @@ export default function RealMapView({
   const [userLocating, setUserLocating] = useState(false);
   const [showStyleMenu, setShowStyleMenu] = useState(false);
 
-  // Default map center
+  // Default map center (San Francisco Metro area where mock points exist)
   const defaultCenter = [37.7749, -122.4194];
   const defaultZoom = 13;
 
@@ -111,23 +121,29 @@ export default function RealMapView({
     // Add scale control
     L.control.scale({ imperial: false, position: 'bottomleft' }).addTo(map);
 
-    // Initial Tile Layer
-    const hasToken = MAPBOX_ACCESS_TOKEN && MAPBOX_ACCESS_TOKEN.startsWith('pk.');
-    const tileUrl = hasToken ? GOOGLE_STYLE_LAYERS.streets.url : OSM_FALLBACK_URL;
+    // Initial Tile Layer with fallback listener
+    const initialUrl = GOOGLE_STYLE_LAYERS.streets.url;
 
-    const tileLayer = L.tileLayer(tileUrl, {
+    const tileLayer = L.tileLayer(initialUrl, {
       maxZoom: 19,
-      tileSize: 512,
-      zoomOffset: -1,
-      attribution: '© Google / Mapbox © OpenStreetMap',
+      tileSize: 256,
+      zoomOffset: 0,
+      crossOrigin: true,
+      subdomains: 'abc',
+      attribution: '© Google / CartoDB / Mapbox © OpenStreetMap',
     }).addTo(map);
+
+    // Handle tile errors by automatically falling back to OpenStreetMap
+    tileLayer.on('tileerror', () => {
+      console.warn('Map tile error encountered. Falling back to OpenStreetMap tiles.');
+      tileLayer.setUrl(OSM_FALLBACK_URL);
+    });
 
     tileLayerRef.current = tileLayer;
 
-    // Invalidate size on mount & container resize to prevent tile cutoffs
-    setTimeout(() => {
-      map.invalidateSize();
-    }, 200);
+    // Force Leaflet tile invalidation after DOM render
+    const t1 = setTimeout(() => map.invalidateSize(), 100);
+    const t2 = setTimeout(() => map.invalidateSize(), 500);
 
     const resizeObserver = new ResizeObserver(() => {
       if (mapInstanceRef.current) {
@@ -140,6 +156,8 @@ export default function RealMapView({
     }
 
     return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
       resizeObserver.disconnect();
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
@@ -152,11 +170,14 @@ export default function RealMapView({
   useEffect(() => {
     if (!mapInstanceRef.current || !tileLayerRef.current) return;
 
-    const hasToken = MAPBOX_ACCESS_TOKEN && MAPBOX_ACCESS_TOKEN.startsWith('pk.');
     const styleObj = GOOGLE_STYLE_LAYERS[activeStyleKey] || GOOGLE_STYLE_LAYERS.streets;
-    const tileUrl = hasToken ? styleObj.url : OSM_FALLBACK_URL;
+    tileLayerRef.current.setUrl(styleObj.url);
 
-    tileLayerRef.current.setUrl(tileUrl);
+    setTimeout(() => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.invalidateSize();
+      }
+    }, 100);
   }, [activeStyleKey]);
 
   // Render & Update Markers on Map
@@ -280,13 +301,23 @@ export default function RealMapView({
   };
 
   const isFlexHeight = height === 'fill' || height === '100%';
-  const styleObj = isFlexHeight ? {} : { height };
-  const heightClass = isFlexHeight ? 'h-full flex-1 min-h-[300px]' : '';
+  const containerStyle = isFlexHeight
+    ? { minHeight: '340px', width: '100%', height: '100%' }
+    : { height, minHeight: height, width: '100%' };
 
   return (
-    <div className={`relative rounded-3xl overflow-hidden border border-zinc-200/80 shadow-lg bg-[#f8f9fa] ${heightClass} ${className}`} style={styleObj}>
+    <div
+      className={`relative rounded-3xl overflow-hidden border border-zinc-200/80 shadow-lg bg-[#f8f9fa] ${
+        isFlexHeight ? 'h-full flex-1 min-h-[340px]' : ''
+      } ${className}`}
+      style={containerStyle}
+    >
       {/* Map DOM Container - Clean Open Canvas */}
-      <div ref={mapContainerRef} className="w-full h-full z-0" />
+      <div
+        ref={mapContainerRef}
+        className="w-full h-full z-0"
+        style={{ minHeight: '340px', width: '100%', height: '100%' }}
+      />
 
       {/* Floating Compact Top-Right Controls */}
       <div className="absolute top-3 right-3 z-20 flex flex-col items-end gap-2 pointer-events-auto">
@@ -294,7 +325,7 @@ export default function RealMapView({
         <div className="relative">
           <button
             onClick={() => setShowStyleMenu(!showStyleMenu)}
-            className="h-9 px-3 rounded-full bg-white/95 backdrop-blur-md text-zinc-800 shadow-md border border-zinc-200/80 flex items-center gap-1.5 text-xs font-semibold hover:bg-zinc-50 active:scale-95 transition-all"
+            className="h-9 px-3 rounded-full bg-white/95 backdrop-blur-md text-zinc-800 shadow-md border border-zinc-200/80 flex items-center gap-1.5 text-xs font-semibold hover:bg-zinc-50 active:scale-95 transition-all cursor-pointer"
           >
             <span>{GOOGLE_STYLE_LAYERS[activeStyleKey]?.icon}</span>
             <span className="hidden sm:inline font-mono">{GOOGLE_STYLE_LAYERS[activeStyleKey]?.name}</span>
@@ -311,7 +342,7 @@ export default function RealMapView({
                     setActiveStyleKey(key);
                     setShowStyleMenu(false);
                   }}
-                  className={`w-full px-3 py-2 rounded-xl text-xs text-left font-medium transition-all flex items-center gap-2.5 ${
+                  className={`w-full px-3 py-2 rounded-xl text-xs text-left font-medium transition-all flex items-center gap-2.5 cursor-pointer ${
                     activeStyleKey === key
                       ? 'bg-blue-50 text-[#1A73E8] font-bold'
                       : 'text-zinc-700 hover:bg-zinc-100'
@@ -332,7 +363,7 @@ export default function RealMapView({
         <button
           onClick={handleLocateUser}
           title="Find my location"
-          className={`w-9 h-9 rounded-full bg-white/95 backdrop-blur-md text-zinc-700 shadow-md border border-zinc-200 flex items-center justify-center hover:bg-blue-50 hover:text-[#1A73E8] transition-all active:scale-95 ${
+          className={`w-9 h-9 rounded-full bg-white/95 backdrop-blur-md text-zinc-700 shadow-md border border-zinc-200 flex items-center justify-center hover:bg-blue-50 hover:text-[#1A73E8] transition-all active:scale-95 cursor-pointer ${
             userLocating ? 'animate-spin text-blue-600' : ''
           }`}
         >
@@ -343,7 +374,7 @@ export default function RealMapView({
         <button
           onClick={handleReset}
           title="Reset map view"
-          className="w-9 h-9 rounded-full bg-white/95 backdrop-blur-md text-zinc-700 shadow-md border border-zinc-200 flex items-center justify-center hover:bg-zinc-100 transition-all active:scale-95"
+          className="w-9 h-9 rounded-full bg-white/95 backdrop-blur-md text-zinc-700 shadow-md border border-zinc-200 flex items-center justify-center hover:bg-zinc-100 transition-all active:scale-95 cursor-pointer"
         >
           <RefreshCw className="w-3.5 h-3.5" />
         </button>
@@ -353,14 +384,14 @@ export default function RealMapView({
           <button
             onClick={handleZoomIn}
             title="Zoom in"
-            className="w-9 h-9 text-zinc-700 hover:bg-zinc-100 flex items-center justify-center border-b border-zinc-100 transition-all"
+            className="w-9 h-9 text-zinc-700 hover:bg-zinc-100 flex items-center justify-center border-b border-zinc-100 transition-all cursor-pointer"
           >
             <ZoomIn className="w-4 h-4" />
           </button>
           <button
             onClick={handleZoomOut}
             title="Zoom out"
-            className="w-9 h-9 text-zinc-700 hover:bg-zinc-100 flex items-center justify-center transition-all"
+            className="w-9 h-9 text-zinc-700 hover:bg-zinc-100 flex items-center justify-center transition-all cursor-pointer"
           >
             <ZoomOut className="w-4 h-4" />
           </button>
