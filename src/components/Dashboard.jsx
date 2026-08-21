@@ -37,33 +37,13 @@ export default function Dashboard() {
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-8 gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/5 border border-black/10 text-xs font-mono text-black mb-2">
-            <LayoutDashboard className="w-3.5 h-3.5 text-black" />
-            <span>ROLE-BASED COMMAND CENTER</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-mono text-emerald-800 font-bold mb-2">
+            <LayoutDashboard className="w-3.5 h-3.5 text-emerald-600" />
+            <span>OPERATIONAL COMMAND CENTER</span>
           </div>
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-space font-bold text-black tracking-tight">
             RoadVision AI Operations Dashboard
           </h2>
-        </div>
-
-        {/* 4 Role Selector Tabs */}
-        <div className="flex items-center gap-1.5 bg-zinc-100 p-1.5 rounded-2xl border border-black/10 shadow-inner overflow-x-auto">
-          {roles.map((role) => {
-            const Icon = role.icon;
-            const isActive = activeRole === role.id;
-            return (
-              <button
-                key={role.id}
-                onClick={() => setActiveRole(role.id)}
-                className={`relative px-3.5 py-2 rounded-xl text-xs font-space font-bold transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap ${
-                  isActive ? 'bg-black text-white shadow-md' : 'text-zinc-600 hover:text-black'
-                }`}
-              >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-zinc-500'}`} />
-                <span>{role.label}</span>
-              </button>
-            );
-          })}
         </div>
       </div>
 

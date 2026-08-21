@@ -61,53 +61,24 @@ export default function DashboardScreen({ userRole = 'citizen', onLogout }) {
     <div className="p-3 sm:p-4 space-y-4 animate-fadeIn pb-8">
       {/* Logged-In Header Status & Logout */}
       {onLogout && (
-        <div className="flex items-center justify-between px-1">
-          <div className="flex items-center gap-1.5">
+        <div className="flex items-center justify-between px-1 py-1 bg-zinc-50 border border-zinc-200/80 rounded-2xl px-3">
+          <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[10px] font-mono font-bold text-zinc-600 uppercase">
-              Authenticated Session: {activeRole}
+            <span className="text-[11px] font-space font-bold text-zinc-800 capitalize">
+              {activeRole} Portal Dashboard
             </span>
           </div>
           <button
             onClick={onLogout}
-            className="flex items-center gap-1 text-[10px] font-mono font-bold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 px-2.5 py-1 rounded-lg border border-red-200 transition-all cursor-pointer"
+            className="flex items-center gap-1 text-[10px] font-space font-bold text-zinc-700 hover:text-red-600 bg-white hover:bg-red-50 px-2.5 py-1 rounded-xl border border-zinc-200 transition-all cursor-pointer shadow-xs"
           >
             <LogOut className="w-3 h-3" />
-            <span>Switch Role / Logout</span>
+            <span>Log Out</span>
           </button>
         </div>
       )}
 
-      {/* 4 Role Selector Tabs */}
-      <div className="bg-zinc-100 p-1.5 rounded-2xl border border-black/10 shadow-xs flex items-center justify-between gap-1 overflow-x-auto scrollbar-none">
-        {roles.map((role) => {
-          const Icon = role.icon;
-          const isActive = activeRole === role.id;
-          return (
-            <button
-              key={role.id}
-              onClick={() => setActiveRole(role.id)}
-              className={`relative flex-1 flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                isActive ? 'text-black font-bold' : 'text-zinc-500 hover:text-black'
-              }`}
-            >
-              {isActive && (
-                <motion.div
-                  layoutId="activeRoleTab"
-                  className="absolute inset-0 bg-white rounded-xl shadow-md border border-black/5 z-0"
-                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                />
-              )}
-              <span className="relative z-10 flex items-center gap-1.5">
-                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-black' : 'text-zinc-400'}`} />
-                <span className="text-[11px] font-space">{role.label}</span>
-              </span>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Dynamic Role Content */}
+      {/* Dynamic Role Content Based On Auth Sign-In */}
       <AnimatePresence mode="wait">
         {activeRole === 'citizen' && (
           <motion.div
