@@ -10,30 +10,37 @@ import ReportForm from './ReportForm';
 import AIAnalyzer from './AIAnalyzer';
 import AdminPanel from './AdminPanel';
 import Footer from './Footer';
+import AuthModal from './AuthModal';
+import { AuthProvider } from '../context/AuthContext';
 
 export default function WebAppContainer({ onSwitchPlatform }) {
   const [activeTab, setActiveTab] = useState('hero');
 
   return (
-    <div className="w-full min-h-screen bg-white text-zinc-900 font-inter relative selection:bg-black selection:text-white">
-      {/* Top Floating Web Navigation Header */}
-      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
+    <AuthProvider>
+      <div className="w-full min-h-screen bg-white text-zinc-900 font-inter relative selection:bg-black selection:text-white">
+        {/* Auth Modal Dialog */}
+        <AuthModal />
 
-      {/* Main Web Application Sections */}
-      <main className="pt-20">
-        <Hero setActiveTab={setActiveTab} />
-        <LiveAnalytics />
-        <Features />
-        <InteractiveMap />
-        <DetectionFeed />
-        <Dashboard />
-        <ReportForm />
-        <AIAnalyzer />
-        <AdminPanel />
-      </main>
+        {/* Top Floating Web Navigation Header */}
+        <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      {/* Footer */}
-      <Footer setActiveTab={setActiveTab} />
-    </div>
+        {/* Main Web Application Sections */}
+        <main className="pt-20">
+          <Hero setActiveTab={setActiveTab} />
+          <LiveAnalytics />
+          <Features />
+          <InteractiveMap />
+          <DetectionFeed />
+          <Dashboard />
+          <ReportForm />
+          <AIAnalyzer />
+          <AdminPanel />
+        </main>
+
+        {/* Footer */}
+        <Footer setActiveTab={setActiveTab} />
+      </div>
+    </AuthProvider>
   );
 }

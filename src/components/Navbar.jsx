@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Eye, MapPin, LayoutDashboard, AlertTriangle, Cpu, Menu, X, Sparkles, ChevronRight, Activity, Zap
+  Eye, MapPin, LayoutDashboard, AlertTriangle, Cpu, Menu, X, Sparkles, ChevronRight, Activity, Zap, LogIn, LogOut, User, ChevronDown, ShieldCheck 
 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export default function Navbar({ activeTab, setActiveTab }) {
+  const { user, logout, setIsAuthModalOpen } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   const navItems = [
     { id: 'hero', label: 'Home', icon: Sparkles },
@@ -42,6 +45,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
   const handleNavClick = (id) => {
     setActiveTab(id);
     setMobileMenuOpen(false);
+    setUserMenuOpen(false);
     const element = document.getElementById(id);
     if (element) {
       const offset = 80;
@@ -119,22 +123,83 @@ export default function Navbar({ activeTab, setActiveTab }) {
           })}
         </nav>
 
-        {/* Right Island: Status Badge & CTA */}
-        <div className="hidden md:flex items-center gap-3 p-2 rounded-full bg-white/85 dark:bg-zinc-950/85 backdrop-blur-2xl border border-black/10 dark:border-white/15 shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
-          <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-mono font-medium">
+        {/* Right Island: Status Badge & Auth User Menu */}
+        <div className="hidden md:flex items-center gap-2.5 p-2 rounded-full bg-white/85 dark:bg-zinc-950/85 backdrop-blur-2xl border border-black/10 dark:border-white/15 shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+          <div className="hidden xl:flex items-center gap-2 px-3.5 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-mono font-medium">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-xs font-bold">AI Operational</span>
           </div>
 
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => handleNavClick('dashboard')}
-            className="px-5 py-2.5 rounded-full bg-black text-white dark:bg-white dark:text-black font-space font-bold text-sm tracking-wide hover:bg-zinc-800 transition-all shadow-md flex items-center gap-2 cursor-pointer"
-          >
-            <LayoutDashboard className="w-4 h-4" />
-            <span>Live Dashboard</span>
-          </motion.button>
+          {/* User Account / Login Button */}
+          {user ? (
+            <div className="relative">
+              <button
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900 border border-white/20 text-white hover:bg-zinc-800 transition-all cursor-pointer shadow-md"
+              >
+                <img
+                  src={user.avatar}
+                  alt={user.name}
+                  className="w-7 h-7 rounded-full object-cover border border-emerald-400/50"
+                />
+                <span className="text-xs font-space font-bold max-w-[100px] truncate">{user.name}</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-semibold">
+                  {user.role}
+                </span>
+                <ChevronDown className="w-3.5 h-3.5 text-zinc-400" />
+              </button>
+
+              {/* User Dropdown Menu */}
+              <AnimatePresence>
+                {userMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    className="absolute right-0 mt-3 w-64 p-3 rounded-2xl bg-zinc-950/95 text-white backdrop-blur-2xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.6)] z-50 flex flex-col gap-2"
+                  >
+                    <div className="p-2 bg-white/5 rounded-xl border border-white/10 flex items-center gap-3">
+                      <img src={user.avatar} alt={user.name} className="w-9 h-9 rounded-full object-cover" />
+                      <div className="overflow-hidden">
+                        <p className="text-xs font-bold font-space truncate">{user.name}</p>
+                        <p className="text-[11px] text-zinc-400 truncate">{user.email}</p>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => { setIsAuthModalOpen(true); setUserMenuOpen(false); }}
+                      className="w-full px-3 py-2 rounded-xl text-xs font-space font-semibold text-zinc-300 hover:text-white hover:bg-white/10 flex items-center justify-between transition-all"
+                    >
+                      <span className="flex items-center gap-2">
+                        <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                        Switch Role / Account
+                      </span>
+                    </button>
+
+                    <button
+                      onClick={() => { logout(); setUserMenuOpen(false); }}
+                      className="w-full px-3 py-2 rounded-xl text-xs font-space font-semibold text-red-400 hover:bg-red-500/10 flex items-center justify-between transition-all"
+                    >
+                      <span className="flex items-center gap-2">
+                        <LogOut className="w-4 h-4" />
+                        Sign Out
+                      </span>
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ) : (
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsAuthModalOpen(true)}
+              className="px-5 py-2.5 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 text-black font-space font-bold text-sm tracking-wide shadow-md flex items-center gap-2 cursor-pointer hover:brightness-110 transition-all"
+            >
+              <LogIn className="w-4 h-4" />
+              <span>Sign In</span>
+            </motion.button>
+          )}
         </div>
 
         {/* Mobile Hamburger Button */}
@@ -158,6 +223,34 @@ export default function Navbar({ activeTab, setActiveTab }) {
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="pointer-events-auto absolute top-full left-4 right-4 mt-3 p-5 rounded-3xl bg-zinc-950/95 text-white backdrop-blur-3xl border border-white/15 shadow-[0_25px_60px_rgba(0,0,0,0.4)] lg:hidden flex flex-col gap-2"
           >
+            {/* Mobile User Profile Section */}
+            {user ? (
+              <div className="p-3 mb-2 bg-white/10 rounded-2xl border border-white/15 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <img src={user.avatar} alt={user.name} className="w-10 h-10 rounded-full object-cover" />
+                  <div>
+                    <p className="text-sm font-bold font-space text-white">{user.name}</p>
+                    <p className="text-xs text-emerald-400 font-mono font-medium">{user.role}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => { logout(); setMobileMenuOpen(false); }}
+                  className="p-2 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-all"
+                  title="Sign Out"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => { setIsAuthModalOpen(true); setMobileMenuOpen(false); }}
+                className="w-full mb-2 bg-emerald-400 text-black py-3 rounded-2xl font-space font-bold text-sm text-center shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <LogIn className="w-4.5 h-4.5" />
+                Sign In / Access Portal
+              </button>
+            )}
+
             {navItems.map((item, idx) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
