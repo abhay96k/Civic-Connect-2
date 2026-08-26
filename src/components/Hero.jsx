@@ -131,6 +131,25 @@ export default function Hero({ setActiveTab }) {
     return () => cancelAnimationFrame(animationId);
   }, []);
 
+  const handleCtaClick = (id) => {
+    if (setActiveTab) {
+      setActiveTab(id);
+    }
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   return (
     <section id="hero" className="relative pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6 md:px-10 lg:px-12 max-w-[1720px] mx-auto overflow-hidden">
       {/* Soft Light Glow Backdrop */}
@@ -164,24 +183,24 @@ export default function Hero({ setActiveTab }) {
           {/* CTA Buttons - Full Width on Mobile */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
             <button
-              onClick={() => setActiveTab('dashboard')}
-              className="w-full sm:w-auto px-7 py-4 rounded-full bg-black text-white font-space font-bold text-sm tracking-wide hover:bg-zinc-800 transition-all flex items-center justify-center gap-2 shadow-xl group active:scale-95"
+              onClick={() => handleCtaClick('dashboard')}
+              className="w-full sm:w-auto px-7 py-4 rounded-full bg-black text-white font-space font-bold text-sm tracking-wide hover:bg-zinc-800 transition-all flex items-center justify-center gap-2 shadow-xl group active:scale-95 cursor-pointer"
             >
               <span>Live Dashboard</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
 
             <button
-              onClick={() => setActiveTab('report')}
-              className="w-full sm:w-auto px-7 py-4 rounded-full glass-button text-black font-space font-semibold text-sm flex items-center justify-center gap-2 border border-black/20 hover:bg-black hover:text-white active:scale-95"
+              onClick={() => handleCtaClick('report')}
+              className="w-full sm:w-auto px-7 py-4 rounded-full glass-button text-black font-space font-semibold text-sm flex items-center justify-center gap-2 border border-black/20 hover:bg-black hover:text-white active:scale-95 cursor-pointer"
             >
               <AlertOctagon className="w-4 h-4 text-red-500" />
               Report Pothole
             </button>
 
             <button
-              onClick={() => setActiveTab('analyzer')}
-              className="w-full sm:w-auto px-6 py-4 rounded-full bg-zinc-100 border border-black/10 hover:border-black/30 text-zinc-800 font-space text-xs flex items-center justify-center gap-2 transition-all shadow-sm active:scale-95"
+              onClick={() => handleCtaClick('analyzer')}
+              className="w-full sm:w-auto px-6 py-4 rounded-full bg-zinc-100 border border-black/10 hover:border-black/30 text-zinc-800 font-space text-xs flex items-center justify-center gap-2 transition-all shadow-sm active:scale-95 cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5 text-cyan-600" />
               Test AI Scanner Demo
