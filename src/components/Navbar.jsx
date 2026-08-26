@@ -72,24 +72,24 @@ export default function Navbar({ activeTab, setActiveTab }) {
           onClick={() => handleNavClick('hero')} 
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
-          className={`flex items-center gap-3 cursor-pointer select-none px-4 py-2.5 rounded-full bg-white/85 dark:bg-zinc-950/85 backdrop-blur-2xl border border-black/10 dark:border-white/15 shadow-[0_10px_30px_rgba(0,0,0,0.08)] transition-all duration-300 ${
-            scrolled ? 'py-2 px-3.5 shadow-lg' : ''
+          className={`flex items-center gap-3 cursor-pointer select-none px-4.5 py-3 rounded-full bg-white/85 dark:bg-zinc-950/85 backdrop-blur-2xl border border-black/10 dark:border-white/15 shadow-[0_10px_30px_rgba(0,0,0,0.08)] transition-all duration-300 ${
+            scrolled ? 'py-2.5 px-4 shadow-lg' : ''
           }`}
         >
-          <div className="relative w-8 h-8 rounded-full bg-black text-white dark:bg-white dark:text-black flex items-center justify-center shadow-md">
-            <Cpu className="w-4 h-4" />
+          <div className="relative w-9 h-9 rounded-full bg-black text-white dark:bg-white dark:text-black flex items-center justify-center shadow-md">
+            <Cpu className="w-4.5 h-4.5" />
             <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping" />
             <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full" />
           </div>
 
-          <div className="flex items-center gap-1.5 font-space font-bold text-sm tracking-wider text-black dark:text-white">
+          <div className="flex items-center gap-2 font-space font-bold text-base sm:text-lg tracking-wider text-black dark:text-white">
             <span>ROAD<span className="text-zinc-500">VISION</span></span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-black text-white dark:bg-white dark:text-black font-mono font-bold">AI</span>
+            <span className="text-xs px-2 py-0.5 rounded-md bg-black text-white dark:bg-white dark:text-black font-mono font-bold">AI</span>
           </div>
         </motion.div>
 
         {/* Center Floating Dock: Main Navigation Pill */}
-        <nav className="hidden lg:flex items-center gap-1 bg-zinc-950/90 text-white backdrop-blur-2xl p-1.5 rounded-full border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+        <nav className="hidden lg:flex items-center gap-1.5 bg-zinc-950/90 text-white backdrop-blur-2xl p-2 rounded-full border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -97,10 +97,10 @@ export default function Navbar({ activeTab, setActiveTab }) {
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                className={`relative flex items-center gap-2 px-4 py-2 rounded-full text-xs font-space font-semibold transition-all duration-300 cursor-pointer ${
+                className={`relative flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-space font-semibold transition-all duration-300 cursor-pointer ${
                   isActive 
                     ? 'text-black font-bold shadow-lg' 
-                    : 'text-zinc-400 hover:text-white hover:bg-white/10'
+                    : 'text-zinc-300 hover:text-white hover:bg-white/10'
                 }`}
               >
                 {isActive && (
@@ -111,7 +111,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
                   />
                 )}
                 <span className="relative z-10 flex items-center gap-2">
-                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-black' : 'text-zinc-400'}`} />
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-black' : 'text-zinc-400'}`} />
                   {item.label}
                 </span>
               </button>
@@ -120,19 +120,19 @@ export default function Navbar({ activeTab, setActiveTab }) {
         </nav>
 
         {/* Right Island: Status Badge & CTA */}
-        <div className="hidden md:flex items-center gap-2.5 p-1.5 rounded-full bg-white/85 dark:bg-zinc-950/85 backdrop-blur-2xl border border-black/10 dark:border-white/15 shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-mono font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[11px] font-bold">AI Operational</span>
+        <div className="hidden md:flex items-center gap-3 p-2 rounded-full bg-white/85 dark:bg-zinc-950/85 backdrop-blur-2xl border border-black/10 dark:border-white/15 shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+          <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-mono font-medium">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-xs font-bold">AI Operational</span>
           </div>
 
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => handleNavClick('dashboard')}
-            className="px-4 py-2 rounded-full bg-black text-white dark:bg-white dark:text-black font-space font-bold text-xs tracking-wide hover:bg-zinc-800 transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+            className="px-5 py-2.5 rounded-full bg-black text-white dark:bg-white dark:text-black font-space font-bold text-sm tracking-wide hover:bg-zinc-800 transition-all shadow-md flex items-center gap-2 cursor-pointer"
           >
-            <LayoutDashboard className="w-3.5 h-3.5" />
+            <LayoutDashboard className="w-4 h-4" />
             <span>Live Dashboard</span>
           </motion.button>
         </div>
@@ -141,10 +141,10 @@ export default function Navbar({ activeTab, setActiveTab }) {
         <motion.button
           whileTap={{ scale: 0.9 }}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-3 rounded-full bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl text-black dark:text-white border border-black/10 dark:border-white/10 shadow-lg cursor-pointer pointer-events-auto"
+          className="lg:hidden p-3.5 rounded-full bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl text-black dark:text-white border border-black/10 dark:border-white/10 shadow-lg cursor-pointer pointer-events-auto"
           aria-label="Toggle navigation menu"
         >
-          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          {mobileMenuOpen ? <X className="w-5.5 h-5.5" /> : <Menu className="w-5.5 h-5.5" />}
         </motion.button>
       </div>
 
@@ -156,7 +156,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.96 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="pointer-events-auto absolute top-full left-4 right-4 mt-3 p-4 rounded-3xl bg-zinc-950/95 text-white backdrop-blur-3xl border border-white/15 shadow-[0_25px_60px_rgba(0,0,0,0.4)] lg:hidden flex flex-col gap-1.5"
+            className="pointer-events-auto absolute top-full left-4 right-4 mt-3 p-5 rounded-3xl bg-zinc-950/95 text-white backdrop-blur-3xl border border-white/15 shadow-[0_25px_60px_rgba(0,0,0,0.4)] lg:hidden flex flex-col gap-2"
           >
             {navItems.map((item, idx) => {
               const Icon = item.icon;
@@ -168,34 +168,34 @@ export default function Navbar({ activeTab, setActiveTab }) {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: idx * 0.03, duration: 0.3 }}
                   onClick={() => handleNavClick(item.id)}
-                  className={`flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-space font-semibold transition-all ${
+                  className={`flex items-center justify-between px-4.5 py-3.5 rounded-2xl text-base font-space font-semibold transition-all ${
                     isActive
                       ? 'bg-white text-black shadow-lg font-bold'
                       : 'text-zinc-300 hover:bg-white/10'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <Icon className={`w-4 h-4 ${isActive ? 'text-black' : 'text-zinc-400'}`} />
+                  <div className="flex items-center gap-3.5">
+                    <Icon className={`w-5 h-5 ${isActive ? 'text-black' : 'text-zinc-400'}`} />
                     <span>{item.label}</span>
                   </div>
-                  <ChevronRight className={`w-4 h-4 opacity-50 ${isActive ? 'text-black' : ''}`} />
+                  <ChevronRight className={`w-5 h-5 opacity-50 ${isActive ? 'text-black' : ''}`} />
                 </motion.button>
               );
             })}
 
-            <div className="pt-3 mt-1 border-t border-white/10 flex flex-col gap-2">
+            <div className="pt-4 mt-2 border-t border-white/10 flex flex-col gap-2.5">
               <button
                 onClick={() => handleNavClick('dashboard')}
-                className="w-full bg-white text-black py-3 rounded-2xl font-space font-bold text-xs text-center shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full bg-white text-black py-3.5 rounded-2xl font-space font-bold text-sm text-center shadow-lg flex items-center justify-center gap-2 cursor-pointer"
               >
-                <LayoutDashboard className="w-4 h-4" />
+                <LayoutDashboard className="w-4.5 h-4.5" />
                 Launch Live Dashboard
               </button>
               <button
                 onClick={() => handleNavClick('report')}
-                className="w-full bg-zinc-900 border border-white/10 text-white py-3 rounded-2xl font-space text-xs text-center font-medium flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full bg-zinc-900 border border-white/10 text-white py-3.5 rounded-2xl font-space text-sm text-center font-medium flex items-center justify-center gap-2 cursor-pointer"
               >
-                <AlertTriangle className="w-4 h-4 text-amber-400" />
+                <AlertTriangle className="w-4.5 h-4.5 text-amber-400" />
                 Report Road Hazard
               </button>
             </div>
