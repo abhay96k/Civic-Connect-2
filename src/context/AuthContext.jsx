@@ -5,7 +5,7 @@ const AuthContext = createContext(null);
 
 const LOCAL_USER_KEY = 'roadvision_auth_user';
 
-// Pre-configured Demo Accounts
+// Pre-configured Demo Accounts for the 4 primary roles
 export const DEMO_ACCOUNTS = {
   citizen: {
     id: 'usr_citizen_101',
@@ -15,21 +15,29 @@ export const DEMO_ACCOUNTS = {
     badge: 'Verified Citizen',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
   },
-  official: {
-    id: 'usr_official_202',
-    name: 'Officer Rajesh Varma',
-    email: 'official@civic.gov',
-    role: 'Municipal Officer',
-    badge: 'Ward Engineer',
+  ambulance: {
+    id: 'usr_amb_202',
+    name: 'Dr. Vikram Sethi',
+    email: 'ambulance@emergency.gov',
+    role: 'Ambulance',
+    badge: 'Emergency Response Unit',
+    avatar: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=150&auto=format&fit=crop&q=80',
+  },
+  traffic: {
+    id: 'usr_traffic_303',
+    name: 'Inspector Rajesh Varma',
+    email: 'police@traffic.gov',
+    role: 'Traffic Police',
+    badge: 'Traffic Control Division',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
   },
-  admin: {
-    id: 'usr_admin_303',
-    name: 'Dr. Neha Kulkarni',
-    email: 'admin@roadvision.ai',
-    role: 'System Administrator',
-    badge: 'AI Master Admin',
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
+  constructor: {
+    id: 'usr_const_404',
+    name: 'Apex Infra Ltd.',
+    email: 'constructor@apexinfra.com',
+    role: 'Constructor',
+    badge: 'Infrastructure Contractor',
+    avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80',
   },
 };
 

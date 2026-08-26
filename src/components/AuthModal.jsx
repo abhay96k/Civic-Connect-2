@@ -263,9 +263,10 @@ export default function AuthModal() {
                   onChange={(e) => setRole(e.target.value)}
                   className="w-full bg-zinc-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-400 transition-all cursor-pointer"
                 >
-                  <option value="Citizen">Citizen Reporter</option>
-                  <option value="Municipal Official">Municipal Officer / Ward Engineer</option>
-                  <option value="Contractor">Infrastructure Contractor</option>
+                  <option value="Citizen">Citizen</option>
+                  <option value="Ambulance">Ambulance</option>
+                  <option value="Traffic Police">Traffic Police</option>
+                  <option value="Constructor">Constructor</option>
                 </select>
               </div>
 
@@ -311,7 +312,7 @@ export default function AuthModal() {
           {activeTab === 'demo' && (
             <div className="space-y-3">
               <p className="text-xs text-zinc-400 font-inter mb-3">
-                Select a pre-configured role to immediately test application capabilities and permissions:
+                Select a pre-configured system profile to test role permissions:
               </p>
 
               {/* Citizen */}
@@ -329,7 +330,7 @@ export default function AuthModal() {
                     <h4 className="text-sm font-space font-bold text-white group-hover:text-emerald-400 transition-colors">
                       {DEMO_ACCOUNTS.citizen.name}
                     </h4>
-                    <p className="text-xs text-zinc-400">{DEMO_ACCOUNTS.citizen.role} • Report Potholes & View Feed</p>
+                    <p className="text-xs text-zinc-400">Citizen • Hazard Reporting & Feed</p>
                   </div>
                 </div>
                 <div className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 text-xs font-mono font-bold">
@@ -337,47 +338,76 @@ export default function AuthModal() {
                 </div>
               </button>
 
-              {/* Municipal Official */}
+              {/* Ambulance */}
               <button
-                onClick={() => loginWithDemo('official')}
+                onClick={() => loginWithDemo('ambulance')}
                 className="w-full p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition-all group flex items-center justify-between cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <img
-                    src={DEMO_ACCOUNTS.official.avatar}
-                    alt="Official"
+                    src={DEMO_ACCOUNTS.ambulance.avatar}
+                    alt="Ambulance"
+                    className="w-10 h-10 rounded-full object-cover border border-red-400/40"
+                  />
+                  <div>
+                    <h4 className="text-sm font-space font-bold text-white group-hover:text-red-400 transition-colors">
+                      {DEMO_ACCOUNTS.ambulance.name}
+                    </h4>
+                    <p className="text-xs text-zinc-400">Ambulance • Emergency Dispatch</p>
+                  </div>
+                </div>
+                <div className="px-2.5 py-1 rounded-lg bg-red-500/10 text-red-400 text-xs font-mono font-bold">
+                  Ambulance
+                </div>
+              </button>
+
+              {/* Traffic Police */}
+              <button
+                onClick={() => loginWithDemo('traffic')}
+                className="w-full p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition-all group flex items-center justify-between cursor-pointer"
+              >
+                <div className="flex items-center gap-3">
+                  <img
+                    src={DEMO_ACCOUNTS.traffic.avatar}
+                    alt="Traffic Police"
                     className="w-10 h-10 rounded-full object-cover border border-cyan-400/40"
                   />
                   <div>
                     <h4 className="text-sm font-space font-bold text-white group-hover:text-cyan-400 transition-colors">
-                      {DEMO_ACCOUNTS.official.name}
+                      {DEMO_ACCOUNTS.traffic.name}
                     </h4>
-                    <p className="text-xs text-zinc-400">{DEMO_ACCOUNTS.official.role} • Ward Dispatch & Repairs</p>
+                    <p className="text-xs text-zinc-400">Traffic Police • Routing & Enforcement</p>
                   </div>
                 </div>
                 <div className="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 text-xs font-mono font-bold">
-                  Official
+                  Traffic Police
                 </div>
               </button>
 
-              {/* Admin */}
+              {/* Constructor */}
               <button
-                onClick={() => loginWithDemo('admin')}
+                onClick={() => loginWithDemo('constructor')}
                 className="w-full p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition-all group flex items-center justify-between cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <img
-                    src={DEMO_ACCOUNTS.admin.avatar}
-                    alt="Admin"
-                    className="w-10 h-10 rounded-full object-cover border border-purple-400/40"
+                    src={DEMO_ACCOUNTS.constructor.avatar}
+                    alt="Constructor"
+                    className="w-10 h-10 rounded-full object-cover border border-amber-400/40"
                   />
                   <div>
-                    <h4 className="text-sm font-space font-bold text-white group-hover:text-purple-400 transition-colors">
-                      {DEMO_ACCOUNTS.admin.name}
+                    <h4 className="text-sm font-space font-bold text-white group-hover:text-amber-400 transition-colors">
+                      {DEMO_ACCOUNTS.constructor.name}
                     </h4>
-                    <p className="text-xs text-zinc-400">{DEMO_ACCOUNTS.admin.role} • Full System Control</p>
+                    <p className="text-xs text-zinc-400">Constructor • Road Repair Operations</p>
                   </div>
                 </div>
+                <div className="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-400 text-xs font-mono font-bold">
+                  Constructor
+                </div>
+              </button>
+            </div>
+          )}
                 <div className="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-400 text-xs font-mono font-bold">
                   Admin
                 </div>

@@ -9,60 +9,51 @@ import { useAuth } from '../context/AuthContext';
 export default function LoginPage() {
   const { isAuthModalOpen, setIsAuthModalOpen, loginWithCredentials, signup, loginWithDemo, loading } = useAuth();
   
-  // Working Envelope Profiles (Left Side)
+  // Working Envelope Profiles (Left Side) - 4 Primary Roles
   const profiles = [
     {
-      id: 'emergency',
-      roleKey: 'official',
-      title: 'Ambulance & Emergency Response',
+      id: 'ambulance',
+      roleKey: 'ambulance',
+      title: 'Ambulance & Emergency',
       desc: 'Dispatch, patient tracking, and emergency response coordination.',
       icon: Ambulance,
-      badge: 'Level 3 Privilege',
-      defaultEmail: 'emergency@civic.gov',
+      badge: 'Level 3 Priority',
+      defaultEmail: 'ambulance@emergency.gov',
     },
     {
       id: 'traffic',
-      roleKey: 'official',
-      title: 'Traffic Police & Enforcement',
+      roleKey: 'traffic',
+      title: 'Traffic Police',
       desc: 'Incident response, traffic routing, and enforcement reporting.',
       icon: Shield,
-      badge: 'Level 2 Privilege',
+      badge: 'Enforcement Access',
       defaultEmail: 'police@traffic.gov',
     },
     {
-      id: 'municipal',
-      roleKey: 'official',
-      title: 'Municipal Officer & Engineer',
-      desc: 'Ward maintenance, contractor allocation, and repair verification.',
+      id: 'constructor',
+      roleKey: 'constructor',
+      title: 'Constructor',
+      desc: 'Infrastructure repairs, road work execution, and maintenance.',
       icon: Building2,
-      badge: 'Level 2 Privilege',
-      defaultEmail: 'official@civic.gov',
+      badge: 'Repair Division',
+      defaultEmail: 'constructor@apexinfra.com',
     },
     {
       id: 'citizen',
       roleKey: 'citizen',
-      title: 'Citizen Reporter Console',
+      title: 'Citizen',
       desc: 'Civic hazard reporting, neighborhood feed, and pothole tracking.',
       icon: User,
-      badge: 'Standard Access',
+      badge: 'Public Console',
       defaultEmail: 'citizen@roadvision.ai',
-    },
-    {
-      id: 'admin',
-      roleKey: 'admin',
-      title: 'AI Master Administrator',
-      desc: 'Full system architecture, analytics, and security protocol control.',
-      icon: Cpu,
-      badge: 'Full Root Access',
-      defaultEmail: 'admin@roadvision.ai',
     },
   ];
 
-  const [selectedProfileId, setSelectedProfileId] = useState('emergency');
+  const [selectedProfileId, setSelectedProfileId] = useState('ambulance');
   const [authMode, setAuthMode] = useState('signin'); // 'signin' | 'signup'
   
   // Form State
-  const [email, setEmail] = useState('manager@aetheros.io');
+  const [email, setEmail] = useState('ambulance@emergency.gov');
   const [password, setPassword] = useState('••••••••••••');
   const [name, setName] = useState('');
   const [rememberSession, setRememberSession] = useState(true);
