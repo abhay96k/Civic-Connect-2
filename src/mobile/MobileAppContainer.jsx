@@ -9,30 +9,62 @@ import DashboardScreen from './screens/DashboardScreen';
 import ReportScreen from './screens/ReportScreen';
 import DiagnosticScreen from './screens/DiagnosticScreen';
 import LoginScreen from './screens/LoginScreen';
+import ConstructorDashboard from '../dashboards/ConstructorDashboard';
+import TrafficPoliceDashboard from '../dashboards/TrafficPoliceDashboard';
+import AmbulanceDashboard from '../dashboards/AmbulanceDashboard';
+import { useAuth } from '../context/AuthContext';
 
 export default function MobileAppContainer() {
-  const [activeScreen, setActiveScreen] = useState('login');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userRole, setUserRole] = useState(null);
+  const { user, logout, loginWithDemo, isAuthModalOpen } = useAuth();
+  const [activeScreen, setActiveScreen] = useState('dashboard');
 
-  const handleLoginSuccess = (role) => {
-    setUserRole(role);
-    setIsLoggedIn(true);
+  const handleLoginSuccess = (roleKey) => {
+    loginWithDemo(roleKey);
     setActiveScreen('dashboard');
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
-    setUserRole(null);
-    setActiveScreen('login');
+    logout();
   };
 
+  // Check if user is logged in
+  const isLoggedIn = !!user && !isAuthModalOpen;
+  const userRoleLower = (user?.role || '').toLowerCase();
+
   const renderScreen = () => {
-    // Strict Auth Guard: If not logged in, ALWAYS render LoginScreen
+    // 1. Strict Auth Guard: If not logged in, ALWAYS render Mobile LoginScreen
     if (!isLoggedIn) {
       return <LoginScreen onLoginSuccess={handleLoginSuccess} />;
     }
 
+    // 2. CONSTRUCTOR MOBILE DASHBOARD
+    if (userRoleLower.includes('constructor') || userRoleLower.includes('contractor')) {
+      return (
+        <div className="w-full">
+          <ConstructorDashboard />
+        </div>
+      );
+    }
+
+    // 3. TRAFFIC POLICE MOBILE DASHBOARD
+    if (userRoleLower.includes('traffic') || userRoleLower.includes('police')) {
+      return (
+        <div className="w-full">
+          <TrafficPoliceDashboard />
+        </div>
+      );
+    }
+
+    // 4. AMBULANCE MOBILE DASHBOARD
+    if (userRoleLower.includes('ambulance') || userRoleLower.includes('emergency')) {
+      return (
+        <div className="w-full">
+          <AmbulanceDashboard />
+        </div>
+      );
+    }
+
+    // 5. CITIZEN MOBILE SCREENS (Default Citizen Mobile App)
     switch (activeScreen) {
       case 'home':
         return <HomeScreen setActiveScreen={setActiveScreen} />;
@@ -41,41 +73,41 @@ export default function MobileAppContainer() {
       case 'cctv':
         return <CctvScreen />;
       case 'dashboard':
-        return <DashboardScreen userRole={userRole} onLogout={handleLogout} />;
+        return <DashboardScreen userRole="citizen" onLogout={handleLogout} />;
       case 'report':
         return <ReportScreen />;
       case 'diagnostic':
         return <DiagnosticScreen />;
-      case 'login':
-        return <LoginScreen onLoginSuccess={handleLoginSuccess} />;
       default:
         return <HomeScreen setActiveScreen={setActiveScreen} />;
     }
   };
 
+  const isCitizenRole = isLoggedIn && (userRoleLower.includes('citizen') || (!userRoleLower.includes('constructor') && !userRoleLower.includes('traffic') && !userRoleLower.includes('ambulance')));
+
   return (
     <div className="w-full min-h-screen bg-white flex flex-col justify-between font-inter relative overflow-x-hidden">
-      {/* Fixed Top Header - Render when logged in */}
-      {isLoggedIn && (
+      {/* Fixed Top Header - Render when logged in on Citizen view */}
+      {isLoggedIn && isCitizenRole && (
         <div className="flex-shrink-0 sticky top-0 z-40 bg-white border-b border-zinc-200 shadow-xs">
           <div className="w-full max-w-7xl mx-auto">
             <MobileHeader 
               activeScreen={activeScreen} 
               setActiveScreen={setActiveScreen} 
               isLoggedIn={isLoggedIn}
-              userRole={userRole}
+              userRole={userRoleLower}
               onLogout={handleLogout}
             />
           </div>
         </div>
       )}
 
-      {/* Main Screen Body - Full screen on desktop and mobile with bottom padding for fixed nav */}
-      <div className={`flex-1 w-full flex flex-col justify-center items-center bg-white relative ${isLoggedIn ? 'pb-24' : ''}`}>
+      {/* Main Screen Body */}
+      <div className={`flex-1 w-full flex flex-col justify-center items-center bg-white relative ${isLoggedIn && isCitizenRole ? 'pb-24' : ''}`}>
         <div className="w-full max-w-7xl mx-auto flex-1 flex flex-col justify-center">
           <AnimatePresence mode="wait">
             <motion.div
-              key={isLoggedIn ? activeScreen : 'login'}
+              key={isLoggedIn ? `${userRoleLower}-${activeScreen}` : 'login'}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -88,8 +120,8 @@ export default function MobileAppContainer() {
         </div>
       </div>
 
-      {/* Permanently Fixed Bottom Navigation Bar - Render when logged in */}
-      {isLoggedIn && (
+      {/* Fixed Bottom TabBar for Citizen Mobile */}
+      {isLoggedIn && isCitizenRole && (
         <MobileTabBar 
           activeScreen={activeScreen} 
           setActiveScreen={setActiveScreen} 

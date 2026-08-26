@@ -84,9 +84,5 @@ function WebAppContent({ onSwitchPlatform }) {
 }
 
 export default function WebAppContainer({ onSwitchPlatform }) {
-  return (
-    <AuthProvider>
-      <WebAppContent onSwitchPlatform={onSwitchPlatform} />
-    </AuthProvider>
-  );
+  return <WebAppContent onSwitchPlatform={onSwitchPlatform} />;
 }
