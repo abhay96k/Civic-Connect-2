@@ -41,6 +41,14 @@ export const DEMO_ACCOUNTS = {
   },
 };
 
+export function getRoleDashboardPath(role) {
+  const r = (role || '').toLowerCase();
+  if (r.includes('constructor') || r.includes('contractor')) return '/constructor/dashboard';
+  if (r.includes('traffic') || r.includes('police')) return '/traffic-police/dashboard';
+  if (r.includes('ambulance') || r.includes('emergency')) return '/ambulance/dashboard';
+  return '/citizen/dashboard';
+}
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
