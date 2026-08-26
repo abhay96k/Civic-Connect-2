@@ -123,12 +123,8 @@ export default function Navbar({ activeTab, setActiveTab }) {
           })}
         </nav>
 
-        {/* Right Island: Status Badge & Auth User Menu */}
+        {/* Right Island: Auth User Menu */}
         <div className="hidden md:flex items-center gap-2.5 p-2 rounded-full bg-white/85 dark:bg-zinc-950/85 backdrop-blur-2xl border border-black/10 dark:border-white/15 shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
-          <div className="hidden xl:flex items-center gap-2 px-3.5 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-mono font-medium">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-bold">AI Operational</span>
-          </div>
 
           {/* User Account / Login Button */}
           {user ? (
