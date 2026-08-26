@@ -45,14 +45,22 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
       const saved = localStorage.getItem(LOCAL_USER_KEY);
-      return saved ? JSON.parse(saved) : DEMO_ACCOUNTS.citizen;
+      return saved ? JSON.parse(saved) : null;
     } catch {
-      return DEMO_ACCOUNTS.citizen;
+      return null;
     }
   });
 
   const [loading, setLoading] = useState(false);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  // Default to opening Login Page on initial website load if not authenticated
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(() => {
+    try {
+      const saved = localStorage.getItem(LOCAL_USER_KEY);
+      return !saved;
+    } catch {
+      return true;
+    }
+  });
 
   // Sync state with local storage
   useEffect(() => {
