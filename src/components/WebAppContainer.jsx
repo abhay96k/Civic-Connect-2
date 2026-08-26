@@ -10,7 +10,7 @@ import ReportForm from './ReportForm';
 import AIAnalyzer from './AIAnalyzer';
 import AdminPanel from './AdminPanel';
 import Footer from './Footer';
-import AuthModal from './AuthModal';
+import LoginPage from './LoginPage';
 import { AuthProvider } from '../context/AuthContext';
 
 export default function WebAppContainer({ onSwitchPlatform }) {
@@ -19,8 +19,8 @@ export default function WebAppContainer({ onSwitchPlatform }) {
   return (
     <AuthProvider>
       <div className="w-full min-h-screen bg-white text-zinc-900 font-inter relative selection:bg-black selection:text-white">
-        {/* Auth Modal Dialog */}
-        <AuthModal />
+        {/* Figma Design Split Login Page Component */}
+        <LoginPage />
 
         {/* Top Floating Web Navigation Header */}
         <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
