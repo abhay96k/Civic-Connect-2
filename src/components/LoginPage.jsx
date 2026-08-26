@@ -107,9 +107,18 @@ export default function LoginPage() {
     }
   };
 
+  const handleClose = () => {
+    if (!user) {
+      const activeProf = profiles.find(p => p.id === selectedProfileId);
+      loginWithDemo(activeProf ? activeProf.roleKey : 'ambulance');
+    } else {
+      setIsAuthModalOpen(false);
+    }
+  };
+
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 backdrop-blur-xl p-2 sm:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-slate-950 p-2 sm:p-6 overflow-y-auto min-h-screen w-full">
         {/* Full-screen Split View Container */}
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
@@ -120,9 +129,9 @@ export default function LoginPage() {
         >
           {/* Close Button */}
           <button
-            onClick={() => setIsAuthModalOpen(false)}
+            onClick={handleClose}
             className="absolute top-5 right-5 z-30 p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-zinc-300 hover:text-white transition-all cursor-pointer shadow-lg"
-            title="Close Console"
+            title="Enter Portal / Close"
           >
             <X className="w-5 h-5" />
           </button>

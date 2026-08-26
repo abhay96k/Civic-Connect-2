@@ -11,36 +11,45 @@ import AIAnalyzer from './AIAnalyzer';
 import AdminPanel from './AdminPanel';
 import Footer from './Footer';
 import LoginPage from './LoginPage';
-import { AuthProvider } from '../context/AuthContext';
+import { AuthProvider, useAuth } from '../context/AuthContext';
 
-export default function WebAppContainer({ onSwitchPlatform }) {
+function WebAppContent({ onSwitchPlatform }) {
   const [activeTab, setActiveTab] = useState('hero');
+  const { user, isAuthModalOpen } = useAuth();
+
+  // On opening website: if user is not logged in OR auth screen is triggered, render Login Page as the FIRST screen!
+  if (!user || isAuthModalOpen) {
+    return <LoginPage />;
+  }
 
   return (
+    <div className="w-full min-h-screen bg-white text-zinc-900 font-inter relative selection:bg-black selection:text-white">
+      {/* Top Floating Web Navigation Header */}
+      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
+
+      {/* Main Web Application Sections */}
+      <main className="pt-20">
+        <Hero setActiveTab={setActiveTab} />
+        <LiveAnalytics />
+        <Features />
+        <InteractiveMap />
+        <DetectionFeed />
+        <Dashboard />
+        <ReportForm />
+        <AIAnalyzer />
+        <AdminPanel />
+      </main>
+
+      {/* Footer */}
+      <Footer setActiveTab={setActiveTab} />
+    </div>
+  );
+}
+
+export default function WebAppContainer({ onSwitchPlatform }) {
+  return (
     <AuthProvider>
-      <div className="w-full min-h-screen bg-white text-zinc-900 font-inter relative selection:bg-black selection:text-white">
-        {/* Figma Design Split Login Page Component */}
-        <LoginPage />
-
-        {/* Top Floating Web Navigation Header */}
-        <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
-
-        {/* Main Web Application Sections */}
-        <main className="pt-20">
-          <Hero setActiveTab={setActiveTab} />
-          <LiveAnalytics />
-          <Features />
-          <InteractiveMap />
-          <DetectionFeed />
-          <Dashboard />
-          <ReportForm />
-          <AIAnalyzer />
-          <AdminPanel />
-        </main>
-
-        {/* Footer */}
-        <Footer setActiveTab={setActiveTab} />
-      </div>
+      <WebAppContent onSwitchPlatform={onSwitchPlatform} />
     </AuthProvider>
   );
 }
