@@ -4,7 +4,7 @@ import { Cpu, FileText, Shield, Mail, ArrowRight, Heart, Code2 } from 'lucide-re
 export default function Footer({ setActiveTab }) {
   return (
     <footer className="mt-20 border-t border-white/10 bg-black text-white py-16 px-4 md:px-8 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 mb-12">
+      <div className="max-w-[1720px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 mb-12">
         {/* Brand Column */}
         <div className="md:col-span-5 space-y-4">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActiveTab('hero')}>
@@ -79,7 +79,7 @@ export default function Footer({ setActiveTab }) {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-zinc-500 gap-2">
+      <div className="max-w-[1720px] mx-auto pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-zinc-500 gap-2">
         <p>© 2026 RoadVision AI Technologies Inc. All rights reserved.</p>
         <p className="flex items-center gap-1">
           Designed with luxury black & white glassmorphism <Heart className="w-3 h-3 text-red-500 fill-red-500" />

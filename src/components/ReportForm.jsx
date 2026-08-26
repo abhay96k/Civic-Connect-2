@@ -86,7 +86,7 @@ export default function ReportForm() {
   };
 
   return (
-    <section id="report" className="py-20 px-4 md:px-8 max-w-4xl mx-auto">
+    <section id="report" className="py-20 px-4 sm:px-6 md:px-10 lg:px-12 max-w-[1400px] xl:max-w-[1720px] mx-auto">
       {/* Section Title */}
       <div className="text-center space-y-3 mb-10">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/30 text-xs font-mono text-red-600 font-bold">

@@ -132,7 +132,7 @@ export default function Hero({ setActiveTab }) {
   }, []);
 
   return (
-    <section id="hero" className="relative pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 md:px-8 max-w-7xl mx-auto overflow-hidden">
+    <section id="hero" className="relative pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6 md:px-10 lg:px-12 max-w-[1720px] mx-auto overflow-hidden">
       {/* Soft Light Glow Backdrop */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[700px] h-[300px] sm:h-[350px] bg-zinc-200/50 rounded-full blur-[100px] sm:blur-[140px] pointer-events-none" />
 
@@ -157,7 +157,7 @@ export default function Hero({ setActiveTab }) {
           </h1>
 
           {/* Subheading */}
-          <p className="text-sm sm:text-base lg:text-lg text-zinc-600 font-inter max-w-2xl leading-relaxed">
+          <p className="text-sm sm:text-base lg:text-lg text-zinc-600 font-inter max-w-3xl leading-relaxed">
             Detect potholes in real time, analyze traffic density, and automate municipal repair workflows with state-of-the-art computer vision and neural GIS mapping.
           </p>
 

@@ -50,7 +50,7 @@ export default function LiveAnalytics() {
   ];
 
   return (
-    <section className="py-16 px-4 md:px-8 max-w-7xl mx-auto my-8">
+    <section className="py-16 px-4 sm:px-6 md:px-10 lg:px-12 max-w-[1720px] mx-auto my-8">
       {/* Matte Black Luxury Banner inside Pure White Layout */}
       <div className="p-8 md:p-12 rounded-[28px] bg-black text-white border border-black relative overflow-hidden shadow-2xl">
         {/* Shimmer line across top */}

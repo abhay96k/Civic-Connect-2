@@ -33,7 +33,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <section id="dashboard" className="py-16 sm:py-20 px-4 md:px-8 max-w-7xl mx-auto">
+    <section id="dashboard" className="py-16 sm:py-20 px-4 sm:px-6 md:px-10 lg:px-12 max-w-[1720px] mx-auto">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-8 gap-4">
         <div>

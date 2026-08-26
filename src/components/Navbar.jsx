@@ -64,7 +64,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
     >
       {/* Outer Floating Container */}
       <div 
-        className={`pointer-events-auto w-full max-w-7xl transition-all duration-500 rounded-3xl bg-white border border-zinc-200/80 ${
+        className={`pointer-events-auto w-full max-w-[1720px] transition-all duration-500 rounded-3xl bg-white border border-zinc-200/80 ${
           scrolled 
             ? 'shadow-[0_16px_40px_rgba(0,0,0,0.12)] py-2.5 px-4 sm:px-6' 
             : 'shadow-[0_8px_30px_rgba(0,0,0,0.06)] py-3 px-4 sm:px-6'
